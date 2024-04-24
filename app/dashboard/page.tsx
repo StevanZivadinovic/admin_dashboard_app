@@ -2,6 +2,7 @@ import { cards } from "@/src/consts/cards";
 import DashboadrCard from "../components/dashboard/card/dashboadrCard";
 import ChartDashboard from "../components/dashboard/chart/chartDashboard";
 import RightSideBar from "../components/dashboard/rightSideBar.tsx/rightSideBar";
+import Transactions from "../components/dashboard/transactions/transactions";
 
 const Dashboard = () => {
   return (
@@ -17,7 +18,7 @@ const Dashboard = () => {
             />
           ))}
         </div>
-        {/* <Transactions /> */}
+        <Transactions />
         <ChartDashboard />
       </div>
       <div className="">
