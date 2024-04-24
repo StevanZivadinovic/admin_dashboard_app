@@ -16,7 +16,10 @@ const config: Config = {
           bgMoreSoft:"#2e374a",
           text:"white",
           textSoft:"#b7bac1",
-          cyan:"#4DD0E1"
+          cyan:"#4DD0E1",
+          pending:"#f7cb7375",
+          done:"#afd6ee75",
+          cancelled:"#f7737375"
 
         
       }
