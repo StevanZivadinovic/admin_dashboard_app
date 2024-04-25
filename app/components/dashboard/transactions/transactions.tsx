@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Transactions = () => {
   return (
-    <div className='w-[75%] mt-[2rem] bg-bgSoft p-4'>
+    <div className='mt-[2rem] bg-bgSoft p-4'>
       <h2 className='text-2xl mb-4'>Latest Transactions</h2>
       <table className='w-full'>
         <thead className="">

@@ -19,7 +19,12 @@ const config: Config = {
           cyan:"#4DD0E1",
           pending:"#f7cb7375",
           done:"#afd6ee75",
-          cancelled:"#f7737375"
+          cancelled:"#f7737375",
+          purpleBtn:"#6A1B9A",
+          lightPurpleBtn:"#CE93D8",
+          greenBtn:"#2E7D32",
+          greenBlueBtnDark:"#00838F",
+          redBtn:"#B71C1C"
 
         
       }

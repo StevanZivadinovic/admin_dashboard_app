@@ -10,7 +10,7 @@ const ChartDashboard = () => {
   return (
     <div className='h-[450px] mt-8'>
       <h2 className='text-2xl font-bold'>Weekly Recap</h2>
-      <ResponsiveContainer width="75%" height="90%">
+      <ResponsiveContainer width="100%" height="90%">
       <LineChart
           width={500}
           height={300}

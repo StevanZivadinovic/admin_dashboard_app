@@ -6,9 +6,9 @@ import Transactions from "../components/dashboard/transactions/transactions";
 
 const Dashboard = () => {
   return (
-    <div className="">
-      <div className="">
-        <div className="flex justify-between gap-x-4 w-[75%]">
+    <div className="flex">
+      <div className="w-[75%]">
+        <div className="flex justify-between gap-x-4">
           {cards?.map((item) => (
             <DashboadrCard
               change={item.change}
@@ -21,7 +21,7 @@ const Dashboard = () => {
         <Transactions />
         <ChartDashboard />
       </div>
-      <div className="">
+      <div className="w-[25%]">
         <RightSideBar />
       </div>
     </div>
