@@ -5,10 +5,17 @@ import { getUsers } from "@/src/api/users/users";
 import { UserType } from "@/src/consts/userTypes";
 import SearchBar from "@/app/components/dashboard/searchBar/searchBar";
 // @ts-ignore
+
+interface usersDataType{
+  users:UserType[], 
+  count:number
+}
+// @ts-ignore
 const Users =async  ({ searchParams }) => {
 
   const q = searchParams?.q || "";
-const users:UserType[] =  await getUsers(q)
+  const page = searchParams?.page || 1;
+const {users, count}:usersDataType =  await getUsers(q, page)
   return (
     <div className='bg-bgSoft mt-4 p-4'>
       <div className='flex justify-between'>
@@ -65,7 +72,7 @@ const users:UserType[] =  await getUsers(q)
           ))}
         </tbody>
       </table>
-      <Pagination />
+      <Pagination count={count} />
       
     </div>
   );
