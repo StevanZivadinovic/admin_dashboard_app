@@ -1,10 +1,11 @@
 
 import { connectToDatabase } from "../mongoDB"
 import {User} from './../../api/models/Users'
-export const getUsers = async ()=>{
-  connectToDatabase()
+export const getUsers = async (q: string)=>{
+  const regex = new RegExp(q, "i");
   try{
-    const users = await User.find()
+    connectToDatabase()
+    const users = await User.find({ username: regex })
     return users;
   }catch(err){
     console.log(err);
