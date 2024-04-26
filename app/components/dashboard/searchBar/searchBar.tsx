@@ -3,12 +3,13 @@ import { usePathname, useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { MdSearch } from 'react-icons/md'
+import { useDebouncedCallback } from 'use-debounce'
 
 const SearchBar: React.FC = () => {
     const searchParams = useSearchParams();
     const { replace } = useRouter();
     const pathname = usePathname();
-    const searchHandler = (e: React.ChangeEvent<HTMLInputElement>)=>{
+    const searchHandler = useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>)=>{
         const params=new URLSearchParams(searchParams)
         if (e.target.value && e.target.value.length>2) {
             params.set("q", e.target.value);
@@ -16,7 +17,7 @@ const SearchBar: React.FC = () => {
             params.delete("q");
           }
           replace(`${pathname}?${params}`);
-    }
+    },300)
   return (
     <div className='flex justify-between'>
     <div className='relative mr-4'>
