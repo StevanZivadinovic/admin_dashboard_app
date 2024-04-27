@@ -14,7 +14,7 @@ export const getUsers = async (
   page: number
 ): Promise<UserResponse> => {
   const regex = new RegExp(q, "i");
-  const ITEM_PER_PAGE = 2;
+  const ITEM_PER_PAGE = 3;
   try {
     connectToDatabase();
     let filteredUsers: UserType[] = [];
