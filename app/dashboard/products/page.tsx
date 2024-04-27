@@ -1,10 +1,23 @@
 import Pagination from "@/app/components/dashboard/pagination/pagination";
+import { getProducts } from "@/src/api/products/products";
+import { ProductsType } from "@/src/consts/Types";
 import { products } from "@/src/consts/products";
 import Image from "next/image";
 import Link from "next/link";
 import { MdSearch } from "react-icons/md";
 
-const Products = () => {
+interface productsDataType{
+  products:ProductsType[], 
+  count:number,
+  filteredProducts:ProductsType[],
+  ITEM_PER_PAGE:number
+}
+const Products =async  ({searchParams}) => {
+  
+  const q = searchParams?.q || "";
+  const page = searchParams?.page || 1;
+const {products, count, filteredProducts, ITEM_PER_PAGE}:productsDataType =  await getProducts(q, page)
+const pickedProducts = filteredProducts.length <= ITEM_PER_PAGE ? filteredProducts:products
   return (
     <div className='bg-bgSoft mt-4 p-4'>
       <div className='flex justify-between'>
@@ -28,7 +41,7 @@ const Products = () => {
           </tr>
         </thead>
         <tbody>
-          {products?.map((products) => (
+          {pickedProducts?.map((products) => (
             <tr key={products.id}>
               <td className="pt-4 pb-4">
                 <div className='flex'>
@@ -65,7 +78,7 @@ const Products = () => {
           ))}
         </tbody>
       </table>
-      <Pagination />
+      <Pagination count={count} />
       
     </div>
   )

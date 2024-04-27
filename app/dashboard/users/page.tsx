@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Pagination from './../../components/dashboard/pagination/pagination'
 import { getUsers } from "@/src/api/users/users";
-import { UserType } from "@/src/consts/userTypes";
+import { UserType } from "@/src/consts/Types";
 import SearchBar from "@/app/components/dashboard/searchBar/searchBar";
 // @ts-ignore
 

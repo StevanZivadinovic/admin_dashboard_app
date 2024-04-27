@@ -1,4 +1,4 @@
-import { UserType } from "@/src/consts/userTypes";
+import { UserType } from "@/src/consts/Types";
 import { connectToDatabase } from "../mongoDB";
 import { User } from "./../../api/models/Users";
 
