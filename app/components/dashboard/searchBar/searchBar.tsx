@@ -15,7 +15,6 @@ const SearchBar: React.FC = () => {
             params.set("q", e.target.value);
           } else {
             params.delete("q");
-            params.delete("page");
 
           }
           replace(`${pathname}?${params}`);

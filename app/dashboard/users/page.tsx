@@ -8,14 +8,17 @@ import SearchBar from "@/app/components/dashboard/searchBar/searchBar";
 
 interface usersDataType{
   users:UserType[], 
-  count:number
+  count:number,
+  filteredUsers:UserType[],
+  ITEM_PER_PAGE:number
 }
 // @ts-ignore
 const Users =async  ({ searchParams }) => {
 
   const q = searchParams?.q || "";
   const page = searchParams?.page || 1;
-const {users, count}:usersDataType =  await getUsers(q, page)
+const {users, count, filteredUsers, ITEM_PER_PAGE}:usersDataType =  await getUsers(q, page)
+const pickedUsers = filteredUsers.length <= ITEM_PER_PAGE ? filteredUsers:users
   return (
     <div className='bg-bgSoft mt-4 p-4'>
       <div className='flex justify-between'>
@@ -35,7 +38,7 @@ const {users, count}:usersDataType =  await getUsers(q, page)
           </tr>
         </thead>
         <tbody>
-          {users?.map((user) => (
+          { pickedUsers?.map((user) => (
             <tr key={user.id}>
               <td className="pt-4 pb-4">
                 <div className='flex'>
