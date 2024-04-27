@@ -11,7 +11,8 @@ const SearchBar: React.FC = () => {
     const pathname = usePathname();
     const searchHandler = useDebouncedCallback((e: React.ChangeEvent<HTMLInputElement>)=>{
         const params=new URLSearchParams(searchParams)
-        if (e.target.value && e.target.value.length>2) {
+        const pattern = /^[a-zA-Z0-9]+$/
+        if (e.target.value && e.target.value.length>2 && pattern.test(e.target.value)) { 
             params.set("q", e.target.value);
           } else {
             params.delete("q");

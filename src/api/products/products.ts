@@ -16,11 +16,11 @@ export const getProducts = async (
   page: number
 ): Promise<UserResponse> => {
   const regex = new RegExp(q, "i");
-  const ITEM_PER_PAGE = 3;
+  const ITEM_PER_PAGE = 2;
   try {
     connectToDatabase();
     let filteredProducts: ProductsType[] = [];
-    const searchQuery = q ? { username: regex } : {};
+    const searchQuery = q ? { title: regex } : {};
     const count = await Product.countDocuments(searchQuery);
     const skipCount = ITEM_PER_PAGE * (parseInt(String(page)) - 1);
 
@@ -29,6 +29,7 @@ export const getProducts = async (
       .limit(ITEM_PER_PAGE);
 
       filteredProducts = await Product.find(searchQuery);
+      console.log(q)
     return { products, count, filteredProducts, ITEM_PER_PAGE };
   } catch (err) {
     console.log(err);
