@@ -35,6 +35,7 @@ const userSchema = new mongoose.Schema(
     },
     phone: {
       type: Number,
+      minlength: [9, 'Number is minimum 9 characters!'],
     },
     address: {
       type: String,

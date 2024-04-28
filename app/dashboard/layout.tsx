@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Navbar from "../components/dashboard/navbar/navbar";
 import Sidebar from "../components/dashboard/sidebar/sidebar";
+import Footer from "../components/global/Footer";
 
 interface LayoutProps {
     children: ReactNode;
@@ -15,6 +16,7 @@ const Leyout = ({children}:LayoutProps) => {
         <div className="w-[80%] p-[20px]">
             <Navbar/>
             {children}
+        <Footer/>
         </div>
       </div>
     )

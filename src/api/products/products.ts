@@ -1,4 +1,4 @@
-
+"use server"
 import { ProductsType } from "@/src/consts/Types";
 import { connectToDatabase } from "../mongoDB";
 import { Product } from "../models/Product";

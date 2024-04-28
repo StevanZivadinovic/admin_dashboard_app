@@ -24,18 +24,19 @@ const Pagination = ({count}:PaginationType) => {
       : params.set("page", parseInt(String(page)) + 1);
     replace(`${pathname}?${params}`);
   };
-
+  const previousBtnClass = !hasPrev ? 'opacity-50 cursor-not-allowed':'opacity-100';
+  const nextBtnClass = !hasNext ? 'opacity-50 cursor-not-allowed':'opacity-100';
   return (
     <div className='flex justify-between'>
       <button
-        className='bg-textSoft py-1 px-3 rounded-md cursor-pointer'
+        className={`${previousBtnClass} bg-textSoft py-1 px-3 rounded-md cursor-pointer`}
         disabled={!hasPrev}
         onClick={() => handleChangePage("prev")}
       >
         Previous
       </button>
       <button
-        className='bg-textSoft py-1 px-3 rounded-md cursor-pointer'
+        className={`${nextBtnClass} bg-textSoft py-1 px-3 rounded-md cursor-pointer`}
         disabled={!hasNext}
         onClick={() => handleChangePage("next")}
       >

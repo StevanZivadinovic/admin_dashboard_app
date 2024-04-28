@@ -14,3 +14,5 @@ export const capitalizeFirstLetter = (str: string | undefined): string => {
     const capitalizedWords = words.map((word) => capitalizeFirstLetter(word));
     return capitalizedWords.join(" ");
   };
+
+  

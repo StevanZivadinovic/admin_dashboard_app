@@ -4,7 +4,6 @@ import { getProducts } from "@/src/api/products/products";
 import { ProductsType } from "@/src/consts/Types";
 import Image from "next/image";
 import Link from "next/link";
-import { MdSearch } from "react-icons/md";
 
 interface productsDataType {
   products: ProductsType[];

@@ -1,13 +1,16 @@
+"use client"
+
 
 const AddProductPage = () => {
+
   return (
     <div className="bg-bgSoft mt-4">
-      <form action="" className="p-4">
+      <form  action='' className="p-4">
         <div className="flex justify-between mb-8">
           <div className="flex flex-col w-[45%]">
             <input className="bg-bg mb-4 p-8 rounded-md" type="text" placeholder="title" name="title" required />
             <input className="bg-bg mb-4 p-8 rounded-md" type="number" placeholder="price" name="price" required />
-            <input className="bg-bg mb-4 p-8 rounded-md" type="text" placeholder="color" name="color" />
+            <input className="bg-bg mb-4 p-8 rounded-md" type="text" placeholder="color" name="color" required/>
           </div>
           <div className="flex flex-col w-[45%]">
             <select className="bg-bg mb-4 p-8 rounded-md" name="cat" id="cat">
@@ -17,7 +20,7 @@ const AddProductPage = () => {
               <option value="computer">Computer</option>
             </select>
             <input className="bg-bg mb-4 p-8 rounded-md" type="number" placeholder="stock" name="stock" required />
-            <input className="bg-bg mb-4 p-8 rounded-md" type="text" placeholder="size" name="size" />
+            <input className="bg-bg mb-4 p-8 rounded-md" type="text" placeholder="size" name="size" required/>
           </div>
         </div>
         <div className="">
