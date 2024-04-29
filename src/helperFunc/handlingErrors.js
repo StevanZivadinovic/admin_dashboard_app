@@ -1,4 +1,5 @@
-export const handleErrors = (err,t) => {
+//users errors handling
+export const handleUsersErrors = (err,t) => {
     let error={
       username:{
         _errors:[]
@@ -45,3 +46,49 @@ export const handleErrors = (err,t) => {
     return error;
   };
   
+//product errors handling
+  export const handleProductsErrors = (err,t) => {
+    let error={
+      title:{
+        _errors:[]
+      },
+      desc:{
+        _errors:[]
+      },
+      price:{
+        _errors:[]
+      },
+      stock:{
+        _errors:[]
+      },
+      img:{
+        _errors:[]
+      },
+      color:{
+        _errors:[]
+      },
+      size:{
+        _errors:[]
+      }
+    }
+    // console.log(err, 'haj');
+    // if(err.message===t('user_not_found')){
+    //   error.bigError=t('user_not_found')
+    // }
+    // if(err.message===t('wrong_username_or_password')){
+    //   error.bigError=t('wrong_username_or_password')
+    // }
+    
+    if(err.code===11000 || err.message==='already in use'){
+      if(err?.keyValue?.title){
+        error.title._errors.push(`Title '${err?.keyValue?.title}' already exists.`);
+      }
+   
+    }
+    if (err?.message.includes('User validation failed')) {
+      Object.values(err?.errors).forEach(({properties}) => {
+        error[properties.path]._errors.push(properties.message)
+      });
+    }
+    return error;
+  };

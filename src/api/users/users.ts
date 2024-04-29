@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import userSchema from './../../api/zod/UserShema'
-import {handleErrors} from './../../helperFunc/handlingErrors'
+import {handleUsersErrors} from './../../helperFunc/handlingErrors'
 
 interface UserResponse {
   users: UserType[];
@@ -75,7 +75,7 @@ const result = userSchema.safeParse({
       // return{data:result.data}
     }
     catch(err){
-      const errorMessage = handleErrors(err)
+      const errorMessage = handleUsersErrors(err)
       return { error: errorMessage };
     }
     revalidatePath("/dashboard/users");

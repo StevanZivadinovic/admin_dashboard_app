@@ -1,11 +1,11 @@
 "use client"
 import { SubmitBtn } from "@/app/components/global/SubmitBtn";
+import {ErrorFormDisplay} from "@/app/components/global/ErrorFormDisplay";
 import { addNewusers } from "@/src/api/users/users";
 import { useFormState } from "react-dom";
 
 const AddUserPage =  () => {
   const [state, formAction]=useFormState(addNewusers, null)
-    console.log(state?.error);
   return (
     <div className="bg-bgSoft mt-4">
       <form action={formAction}  className="p-4">
@@ -19,13 +19,7 @@ const AddUserPage =  () => {
               name="username"
               required
             />
-             {state?.error?.username && (
-                <p className="text-redBtn -mt-[10px] mb-4">
-                  <strong>{state?.error?.username?._errors[0]
-                  // || state?.error?.username 
-                  }</strong>
-                </p>
-              )}
+             <ErrorFormDisplay state={state?.error?.username}/>
               </div>
 
               <div className="password">
@@ -36,11 +30,7 @@ const AddUserPage =  () => {
               name="password"
               required
             />
-            {state?.error?.password && (
-                <p className="text-redBtn -mt-[10px] mb-4">
-                  <strong>{state?.error?.password?._errors[0]}</strong>
-                </p>
-              )}
+            <ErrorFormDisplay state={state?.error?.password}/>
               </div>
               <div className="isAdmin">
             <select name="isAdmin" id="isAdmin" className="bg-bg mb-4 p-8 rounded-md w-full">
@@ -48,12 +38,7 @@ const AddUserPage =  () => {
               <option value={'true'}>Yes</option>
               <option value={'false'}>No</option>
             </select>
-            {state?.error?.isAdmin && (
-                <p className="text-redBtn -mt-[10px] mb-4">
-                  
-                  <strong>{state?.error?.isAdmin?._errors[0]}</strong>
-                </p>
-              )}
+             <ErrorFormDisplay state={state?.error?.isAdmin}/>
               </div>
           </div>
           <div className="flex flex-col w-[45%]">
@@ -65,11 +50,7 @@ const AddUserPage =  () => {
               name="email"
               required
             />
-            {state?.error?.email && (
-                <p className="text-redBtn -mt-[10px] mb-4">
-                  <strong>{state?.error?.email?._errors[0]}</strong>
-                </p>
-              )}
+             <ErrorFormDisplay state={state?.error?.email}/>
           </div>
           <div className="phone">
             <input
@@ -78,11 +59,7 @@ const AddUserPage =  () => {
               placeholder="phone"
               name="phone"
             />
-            {state?.error?.phone && (
-                <p className="text-redBtn -mt-[10px] mb-4">
-                  <strong>{state?.error?.phone?._errors[0]}</strong>
-                </p>
-              )}
+             <ErrorFormDisplay state={state?.error?.phone}/>
           </div>
            <select name="isActive" id="isActive" className="bg-bg mb-4 p-8 rounded-md">
           <option value={'true'}>

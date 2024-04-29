@@ -1,11 +1,11 @@
 "use client";
-import { products } from "@/src/consts/products";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 
 const SingleProductPage = () => {
   const { id } = useParams();
   const product = products?.[Number(id)];
+  
   return (
     <div className="flex mt-4 justify-between">
       <div

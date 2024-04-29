@@ -18,8 +18,9 @@ const Products = async ({ searchParams }) => {
   const page = searchParams?.page || 1;
   const { products, count, filteredProducts, ITEM_PER_PAGE }: productsDataType =
     await getProducts(q, page);
-  const pickedProducts =
+    const pickedProducts =
     filteredProducts.length <= ITEM_PER_PAGE ? filteredProducts : products;
+    console.log(count)
   return (
     <div className="bg-bgSoft mt-4 p-4">
       <div className="flex justify-between">

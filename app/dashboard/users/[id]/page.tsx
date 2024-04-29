@@ -1,12 +1,20 @@
-"use client"
-import { users } from "@/src/consts/users";
+"use server"
+
+import { getUsers } from "@/src/api/users/users";
+import { UserType } from "@/src/consts/Types";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-
-const SingleUserPage = ( ) => {
-  
-  const { id } = useParams();
-  const user = users?.[Number(id)];
+interface usersDataType{
+  users:UserType[], 
+  count:number,
+  filteredUsers:UserType[],
+  ITEM_PER_PAGE:number
+}
+const SingleUserPage =  async ( { searchParams }) => {
+  console.log(searchParams)
+  // const { id } = useParams();
+  const {users, count, filteredUsers, ITEM_PER_PAGE}:usersDataType =  await getUsers('', 1)
+  const user = users?.[Number(5)];
   return (
     <div className='flex mt-4 justify-between'>
       <div style={{height:'max-content'}} className='w-[20%] p-4 bg-bgSoft rounded-md'> 

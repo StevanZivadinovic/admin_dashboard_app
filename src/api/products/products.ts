@@ -1,7 +1,11 @@
 "use server"
-import { ProductsType } from "@/src/consts/Types";
+import { ProductsType, productFormErrorType } from "@/src/consts/Types";
 import { connectToDatabase } from "../mongoDB";
 import { Product } from "../models/Product";
+import { handleProductsErrors } from "@/src/helperFunc/handlingErrors";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import productSchema from './../zod/ProductShema'
 
 
 interface UserResponse {
@@ -16,7 +20,7 @@ export const getProducts = async (
   page: number
 ): Promise<UserResponse> => {
   const regex = new RegExp(q, "i");
-  const ITEM_PER_PAGE = 2;
+  const ITEM_PER_PAGE = 3;
   try {
     connectToDatabase();
     let filteredProducts: ProductsType[] = [];
@@ -36,3 +40,47 @@ export const getProducts = async (
     throw new Error("Failed to retrieve users");
   }
 };
+
+export const addNewProducts = async (state:any, formData: FormData)=>{
+  const { title, desc, price, stock, img,color,size } =
+  Object.fromEntries(formData);
+  const parsedPrice = parseInt(price as string);
+  const parsedStock = parseInt(stock as string);
+const result = productSchema.safeParse({
+  title,
+  desc,
+  price:parsedPrice,
+  stock:parsedStock,
+  img,
+  color,
+  size
+  })
+  if(result.success){
+    
+    try{
+      connectToDatabase();
+      const newProduct = new Product({
+        title,
+        desc,
+        price:parsedPrice,
+        stock:parsedStock,
+        img,
+        color,
+        size
+      });
+       await newProduct.save()
+      // return{data:result.data}
+    }
+    catch(err){
+      console.log(err, 'moongose error')
+      const errorMessage = handleProductsErrors(err)
+      return { error: errorMessage };
+    }
+    revalidatePath("/dashboard/products");
+       redirect("/dashboard/products");
+  }
+  if(result.error){
+    console.log(result.error, 'zodError')
+    return {error:result.error.format()}
+  }
+}

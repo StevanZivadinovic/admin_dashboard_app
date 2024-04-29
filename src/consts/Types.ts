@@ -23,3 +23,28 @@ export interface ProductsType{
     color:string,
     size:string
 }
+export interface productFormErrorType{
+    error:{
+      username:{
+        _errors:string[]
+      },
+      email:{
+        _errors:string[]
+      },
+      password:{
+        _errors:string[]
+      },
+      phone:{
+        _errors:string[]
+      },
+      address:{
+        _errors:string[]
+      },
+      isAdmin:{
+        _errors:string[]
+      },
+      isActive:{
+        _errors:string[]
+      }
+    }
+  }
