@@ -1,15 +1,13 @@
 "use client"
+import { SubmitBtn } from "@/app/components/global/SubmitBtn";
 import { addNewusers } from "@/src/api/users/users";
 import { useFormState } from "react-dom";
-import { useFormStatus } from "react-dom";
 
 const AddUserPage =  () => {
-  const { pending } = useFormStatus()
   const [state, formAction]=useFormState(addNewusers, null)
     console.log(state?.error);
   return (
     <div className="bg-bgSoft mt-4">
-      {!pending ?
       <form action={formAction}  className="p-4">
         <div className="flex justify-between mb-8">
           <div className="flex flex-col w-[45%]">
@@ -23,7 +21,9 @@ const AddUserPage =  () => {
             />
              {state?.error?.username && (
                 <p className="text-redBtn -mt-[10px] mb-4">
-                  <strong>{state?.error?.username?._errors[0]}</strong>
+                  <strong>{state?.error?.username?._errors[0]
+                  // || state?.error?.username 
+                  }</strong>
                 </p>
               )}
               </div>
@@ -50,6 +50,7 @@ const AddUserPage =  () => {
             </select>
             {state?.error?.isAdmin && (
                 <p className="text-redBtn -mt-[10px] mb-4">
+                  
                   <strong>{state?.error?.isAdmin?._errors[0]}</strong>
                 </p>
               )}
@@ -102,10 +103,8 @@ const AddUserPage =  () => {
             className="w-full bg-bg mb-4 p-4 outline-none rounded-md"
           ></textarea>
         </div>
-        <button className="bg-greenBlueBtnDark w-full p-8" type="submit">
-          Submit
-        </button>
-      </form>:<>Spinner</>}
+        <SubmitBtn/>
+      </form>
     </div>
   );
 };

@@ -5,8 +5,8 @@ import { User } from "./../../api/models/Users";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import {handleErrors} from './../../helperFunc/handlingErrors' 
 import userSchema from './../../api/zod/UserShema'
+import {handleErrors} from './../../helperFunc/handlingErrors'
 
 interface UserResponse {
   users: UserType[];
@@ -43,12 +43,12 @@ export const getUsers = async (
 export const addNewusers = async (state:any, formData: FormData)=>{
   const { username, email, password, phone, address, isAdmin, isActive } =
   Object.fromEntries(formData);
-console.log(typeof phone)
-  const result = userSchema.safeParse({
+  const parsedPhone = parseInt(phone as string);
+const result = userSchema.safeParse({
     username,
       email,
       password,
-      phone,
+      phone:parsedPhone,
       address,
       isAdmin,
       isActive
@@ -66,20 +66,20 @@ console.log(typeof phone)
         username,
         email,
         password: hashedPassword,
-        phone,
+        phone:parsedPhone,
         address,
         isAdmin:Boolean(isAdmin),
         isActive:Boolean(isActive),
       });
-      await newUser.save();
-      revalidatePath("/dashboard/users");
-      redirect("/dashboard/users");
+       await newUser.save()
       // return{data:result.data}
     }
     catch(err){
-      throw new Error("Error add new user!");
-      
+      const errorMessage = handleErrors(err)
+      return { error: errorMessage };
     }
+    revalidatePath("/dashboard/users");
+       redirect("/dashboard/users");
   }
   if(result.error){
     return {error:result.error.format()}
