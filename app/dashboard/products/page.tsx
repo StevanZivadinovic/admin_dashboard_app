@@ -1,5 +1,7 @@
 import Pagination from "@/app/components/dashboard/pagination/pagination";
 import SearchBar from "@/app/components/dashboard/searchBar/searchBar";
+import DeleteProductBtn from "@/app/components/global/DeleteProductBtn";
+import DeleteUserProductMsg from "@/app/components/global/DeleteUserProductMsg";
 import { getProducts } from "@/src/api/products/products";
 import { ProductsType } from "@/src/consts/Types";
 import Image from "next/image";
@@ -20,7 +22,7 @@ const Products = async ({ searchParams }) => {
     await getProducts(q, page);
     const pickedProducts =
     filteredProducts.length <= ITEM_PER_PAGE ? filteredProducts : products;
-    console.log(count)
+
   return (
     <div className="bg-bgSoft mt-4 p-4">
       <div className="flex justify-between">
@@ -43,38 +45,33 @@ const Products = async ({ searchParams }) => {
           </tr>
         </thead>
         <tbody>
-          {pickedProducts?.map((products) => (
-            <tr key={products.id}>
+          {pickedProducts?.map((product) => (
+            <tr key={product.id}>
               <td className="pt-4 pb-4">
                 <div className="flex">
                   <Image
-                    src={products.img || "/images/noproduct.jpg"}
+                    src={product.img || "/images/noproduct.jpg"}
                     alt=""
                     width={40}
                     height={40}
                     className="rounded-[50%] mr-4"
                   />
-                  <p className="flex self-center">{products.title}</p>
+                  <p className="flex self-center">{product.title}</p>
                 </div>
               </td>
-              <td>{products.description}</td>
-              <td>{products.price}</td>
-              <td>{products.createdAt?.toString().slice(4, 16)}</td>
-              <td>{products.stock}</td>
+              <td>{product.description}</td>
+              <td>{product.price}</td>
+              <td>{product.createdAt?.toString().slice(4, 16)}</td>
+              <td>{product.stock}</td>
               <td>
                 <div className="flex">
                   <Link
                     className="mr-4 bg-greenBtn rounded-md py-1 px-3"
-                    href={`/dashboard/products/${products.id}`}
+                    href={`/dashboard/products/${product.id}`}
                   >
                     <button>View</button>
                   </Link>
-                  <form action="">
-                    <input type="hidden" name="id" value={products.id} />
-                    <button className="mr-4 bg-redBtn rounded-md py-1 px-3">
-                      Delete
-                    </button>
-                  </form>
+                  <DeleteProductBtn product={product}/>
                 </div>
               </td>
             </tr>
@@ -82,6 +79,7 @@ const Products = async ({ searchParams }) => {
         </tbody>
       </table>
       <Pagination count={count} />
+      <DeleteUserProductMsg count={count} type={'Product'}/>
     </div>
   );
 };

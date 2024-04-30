@@ -10,6 +10,7 @@ interface usersDataType{
   filteredUsers:UserType[],
   ITEM_PER_PAGE:number
 }
+//@ts-ignore
 const SingleUserPage =  async ( { searchParams }) => {
   console.log(searchParams)
   // const { id } = useParams();

@@ -1,9 +1,12 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import Pagination from './../../components/dashboard/pagination/pagination'
 import { getUsers } from "@/src/api/users/users";
 import { UserType } from "@/src/consts/Types";
 import SearchBar from "@/app/components/dashboard/searchBar/searchBar";
+import DeleteUserProductMsg from "@/app/components/global/DeleteUserProductMsg";
+import DeleteUserBtn from "@/app/components/global/DeleteUserBtn";
 // @ts-ignore
 
 interface usersDataType{
@@ -19,7 +22,9 @@ const Users =async  ({ searchParams }) => {
   const page = searchParams?.page || 1;
 const {users, count, filteredUsers, ITEM_PER_PAGE}:usersDataType =  await getUsers(q, page)
 const pickedUsers = filteredUsers.length <= ITEM_PER_PAGE ? filteredUsers:users
-  return (
+console.log(count)
+
+return (
     <div className='bg-bgSoft mt-4 p-4'>
       <div className='flex justify-between'>
      <SearchBar/>
@@ -63,12 +68,7 @@ const pickedUsers = filteredUsers.length <= ITEM_PER_PAGE ? filteredUsers:users
                       View
                     </button>
                   </Link>
-                  <form action=''>
-                    <input type="hidden" name="id" value={(user?.id)} />
-                    <button className='mr-4 bg-redBtn rounded-md py-1 px-3'>
-                      Delete
-                    </button>
-                  </form>
+                 <DeleteUserBtn user={user}/>
                 </div>
               </td>
             </tr>
@@ -76,6 +76,7 @@ const pickedUsers = filteredUsers.length <= ITEM_PER_PAGE ? filteredUsers:users
         </tbody>
       </table>
       <Pagination count={count} />
+      <DeleteUserProductMsg count={count} type={'User'}/>
       
     </div>
   );

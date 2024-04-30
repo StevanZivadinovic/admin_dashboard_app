@@ -8,6 +8,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      animation:{
+        line: 'lineAnimation 3s linear infinite',
+      },
+      keyframes: {
+        lineAnimation: {
+          '0%': { width: '0' },
+          '100%': { width: '100%' },
+        },
+      },
       backgroundImage: {
       },
       colors:{

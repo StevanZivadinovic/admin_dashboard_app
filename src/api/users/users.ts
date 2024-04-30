@@ -85,3 +85,15 @@ const result = userSchema.safeParse({
     return {error:result.error.format()}
   }
 }
+
+export const deleteUser = async (id:number) => {
+  try {
+    connectToDatabase();
+    await User.findByIdAndDelete(id);
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to delete user!");
+  }
+
+  revalidatePath("/dashboard/users");
+};

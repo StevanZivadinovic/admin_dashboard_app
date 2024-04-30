@@ -84,3 +84,18 @@ const result = productSchema.safeParse({
     return {error:result.error.format()}
   }
 }
+
+export const deleteProduct = async (id:number) => {
+
+  console.log(id, 'idOf');
+  try {
+    connectToDatabase();
+    await Product.findByIdAndDelete(id);
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to delete product!");
+  }
+
+  revalidatePath("/dashboard/products");
+};
+
