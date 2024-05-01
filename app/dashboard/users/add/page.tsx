@@ -73,10 +73,10 @@ const AddUserPage =  () => {
         <div className="">
           <textarea
             required
-            name="adress"
-            id="adress"
+            name="address"
+            id="address"
             rows={16}
-            placeholder="adress"
+            placeholder="address"
             className="w-full bg-bg mb-4 p-4 outline-none rounded-md"
           ></textarea>
         </div>

@@ -16,6 +16,6 @@ export const capitalizeFirstLetter = (str: string | undefined): string => {
   };
 
   export const getLastWordFromURL = (URL:string)=>{
-    const lastWord = URL.split("/").filter(Boolean).pop();
+    const lastWord = URL?.split("/").filter(Boolean).pop();
     return lastWord;
   }

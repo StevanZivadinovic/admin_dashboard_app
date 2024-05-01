@@ -53,6 +53,7 @@ const result = userSchema.safeParse({
       isAdmin,
       isActive
   })
+  
   if(result.success){
     
     try{
@@ -91,9 +92,68 @@ export const deleteUser = async (id:number) => {
     connectToDatabase();
     await User.findByIdAndDelete(id);
   } catch (err) {
-    console.log(err);
     throw new Error("Failed to delete user!");
   }
 
   revalidatePath("/dashboard/users");
+};
+
+
+export const fetchUser = async (id:number) => {
+  try {
+    connectToDatabase();
+    const user = await User.findById(id);
+    return user;
+  } catch (err) {
+    throw new Error("Failed to fetch user!");
+  }
+};
+
+export const updateUser = async (state:any, formData:FormData) => {
+  const { id, username, email, password, phone, address, isAdmin, isActive } =
+    Object.fromEntries(formData);
+    const parsedPhone = parseInt(phone as string);
+    const result = userSchema.safeParse({
+      username,
+        email,
+        password,
+        phone:parsedPhone,
+        address,
+        isAdmin,
+        isActive
+    })
+    if(result.success){
+      try {
+        connectToDatabase();
+        console.log('ovde sam')
+        const updateFields = {
+          username,
+          email,
+          password,
+          phone,
+          address,
+          isAdmin,
+          isActive,
+        };
+        console.log(Object.keys(updateFields))
+        Object.keys(updateFields).forEach(
+          (key) =>
+            //@ts-ignore
+            (updateFields[key] === "" || undefined) && delete updateFields[key]
+        );
+    
+        await User.findByIdAndUpdate(id, updateFields);
+      } catch (err) {
+        console.log(err);
+        const errorMessage = handleUsersErrors(err)
+      return { error: errorMessage };
+      }
+      
+      revalidatePath("/dashboard/users");
+      redirect("/dashboard/users");
+    }
+    if(result.error){
+      return {error:result.error.format()}
+    }
+  
 };

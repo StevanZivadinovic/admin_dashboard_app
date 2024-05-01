@@ -6,6 +6,7 @@ import { handleProductsErrors } from "@/src/helperFunc/handlingErrors";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import productSchema from './../zod/ProductShema'
+import { getLastWordFromURL } from "@/src/helperFunc/globalFunc";
 
 
 interface UserResponse {
@@ -99,3 +100,61 @@ export const deleteProduct = async (id:number) => {
   revalidatePath("/dashboard/products");
 };
 
+
+export const fetchProduct = async (id:number) => {
+  try {
+    connectToDatabase();
+    const product = await Product.findById(id);
+    return product;
+  } catch (err) {
+    throw new Error("Failed to fetch product!");
+  }
+};
+
+
+export const updateProduct = async (state:any, formData:FormData) => {
+    const {id, title, desc, price, stock, img,color,size } =
+  Object.fromEntries(formData);
+    const parsedPrice = parseInt(price as string);
+    const parsedStock = parseInt(stock as string);
+    const result = productSchema.safeParse({
+      title,
+        desc,
+        price:parsedPrice,
+        stock:parsedStock,
+        img,
+        color,
+        size
+    })
+    if(result.success){
+      try {
+        connectToDatabase();
+        const updateFields = {
+          title,
+          desc,
+          price:parsedPrice,
+          stock:parsedStock,
+          img,
+          color,
+          size
+        };
+        Object.keys(updateFields).forEach(
+          (key) =>
+            //@ts-ignore
+            (updateFields[key] === "" || undefined) && delete updateFields[key]
+        );
+    
+        await Product.findByIdAndUpdate(id, updateFields);
+      } catch (err) {
+        const errorMessage = handleProductsErrors(err)
+      return { error: errorMessage };
+      }
+      
+      revalidatePath("/dashboard/products");
+      redirect("/dashboard/products");
+    }
+    if(result.error){
+      return {error:result.error.format()}
+    }
+  
+};

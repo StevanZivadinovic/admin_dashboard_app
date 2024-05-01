@@ -2,7 +2,6 @@
 
 import { SubmitBtn } from "@/app/components/global/SubmitBtn";
 import {ErrorFormDisplay} from "@/app/components/global/ErrorFormDisplay";
-
 import { addNewProducts } from "@/src/api/products/products";
 import { useFormState } from "react-dom";
 

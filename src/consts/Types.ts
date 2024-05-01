@@ -1,4 +1,5 @@
 export interface UserType{
+    _id: string | number | readonly string[] | undefined
     id:number,
     img:string,
     username:string,
@@ -7,14 +8,16 @@ export interface UserType{
     createdAt:Date,
     isAdmin:boolean,
     isActive:boolean,
-    address:string
+    address:string,
+    password:string
 }
 
 
 export interface ProductsType{
+    _id: string | number | readonly string[] | undefined
     id:number,
     title:string,
-    description:string,
+    desc:string,
     img:string,
     price:number,
     createdAt:Date,
