@@ -91,7 +91,7 @@ const AddUserPage =  () => {
             className="w-full bg-bg mb-4 p-4 outline-none rounded-md"
           ></textarea>
         </div>
-        <SubmitBtn/>
+        <SubmitBtn typeOfBtn={'Add'} display={displayAddedMsg} padding={8}/>
       </form>
         <FormSubmitMsg type={"User"} display={displayAddedMsg} typeOfMessage={'added'}/>
     </div>

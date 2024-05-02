@@ -64,7 +64,7 @@ const AddProductPage = () => {
           ></textarea>
           <ErrorFormDisplay state={state?.error?.desc}/>
         </div>
-        <SubmitBtn/>
+        <SubmitBtn typeOfBtn={'Add'} display={displayAddedMsg} padding={8}/>
       </form>
       <FormSubmitMsg type={"Product"} display={displayAddedMsg} typeOfMessage={'added'}/>
     </div>

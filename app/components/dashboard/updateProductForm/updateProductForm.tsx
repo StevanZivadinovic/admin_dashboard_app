@@ -7,6 +7,7 @@ import { ErrorFormDisplay } from '../../global/ErrorFormDisplay';
 import { redirectAfterSubmit } from '@/src/helperFunc/globalFunc';
 import { useRouter } from 'next/navigation';
 import FormSubmitMsg from '../../global/FormSubmitMsg';
+import { SubmitBtn } from '../../global/SubmitBtn';
 
 
 interface UpdateProductFormType{
@@ -112,9 +113,7 @@ const UpdateProductForm = ({product}:UpdateProductFormType) => {
       ></textarea>          
       <ErrorFormDisplay state={state?.error?.desc} />
     </div>
-      <button className="bg-greenBlueBtnDark w-full p-4 rounded-md">
-        Update
-      </button>
+    <SubmitBtn typeOfBtn={'Update'} display={displayUpdateMsg} padding={4}/>
     </form>
     <FormSubmitMsg type={'Product'} display={displayUpdateMsg} typeOfMessage={'updated'}/>
   </div>

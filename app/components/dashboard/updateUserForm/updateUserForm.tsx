@@ -7,6 +7,7 @@ import { ErrorFormDisplay } from "../../global/ErrorFormDisplay";
 import { useRouter } from "next/navigation";
 import { redirectAfterSubmit } from "@/src/helperFunc/globalFunc";
 import FormSubmitMsg from "../../global/FormSubmitMsg";
+import { SubmitBtn } from "../../global/SubmitBtn";
 interface UpdateUserFormType {
   user: UserType;
 }
@@ -138,9 +139,7 @@ const UpdateUserForm = ({ user }: UpdateUserFormType) => {
           </select>
           {<ErrorFormDisplay state={state?.error?.isActive} />}
         </div>
-        <button className="bg-greenBlueBtnDark w-full p-4 rounded-md">
-          Update
-        </button>
+        <SubmitBtn typeOfBtn={'Update'} display={displayUpdateMsg} padding={4}/>
       </form>
       <FormSubmitMsg type={"User"} display={displayUpdateMsg} typeOfMessage={'updated'}/>
     </div>
