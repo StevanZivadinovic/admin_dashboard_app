@@ -12,7 +12,7 @@ export const SubmitBtn = ({display, typeOfBtn, padding}:submitBtnType) => {
     const { pending } = useFormStatus()
   return (
     <>
-    {!pending && !display && <button disabled={pending} className={`bg-greenBlueBtnDark w-full p-${padding} ${pending && display ? 'cursor-not-allowed bg-pending' : '' } ` } type="submit">
+    {!pending && !display && <button disabled={pending} className={`rounded-md bg-greenBlueBtnDark w-full p-${padding} ${pending && display ? 'cursor-not-allowed bg-pending' : '' } ` } type="submit">
     {typeOfBtn}
   </button>}
     </>

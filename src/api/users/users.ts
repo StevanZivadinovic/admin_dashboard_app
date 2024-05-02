@@ -41,9 +41,11 @@ export const getUsers = async (
 };
 
 export const addNewusers = async (state:any, formData: FormData)=>{
-  const { username, email, password, phone, address, isAdmin, isActive } =
+  const { username, email, password, phone, address, isAdmin, isActive,image } =
   Object.fromEntries(formData);
   const parsedPhone = parseInt(phone as string);
+  //@ts-ignore
+  const ImagePath = image?.name as File;
 const result = userSchema.safeParse({
     username,
       email,
@@ -51,9 +53,11 @@ const result = userSchema.safeParse({
       phone:parsedPhone,
       address,
       isAdmin,
-      isActive
+      isActive,
+      img:ImagePath
+      
   })
-  
+  // console.log(image, 'my image')
   if(result.success){
     
     try{
@@ -71,16 +75,19 @@ const result = userSchema.safeParse({
         address,
         isAdmin:Boolean(isAdmin),
         isActive:Boolean(isActive),
+        img:ImagePath
       });
        await newUser.save()
        return {succesMsg:result.success}
     }
     catch(err){
+      console.log(err)
       const errorMessage = handleUsersErrors(err)
       return { error: errorMessage };
     }
   }
   if(result.error){
+    console.log(result.error)
     return {error:result.error.format()}
   }
 }

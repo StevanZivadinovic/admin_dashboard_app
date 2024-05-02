@@ -14,6 +14,7 @@ const userSchema = z.object({
   isActive: z.string().optional(),
   phone: z.number().min(9, 'Number must be at least 9 characters long!'),
   address: z.string().optional(),
+  img:z.string().optional('Image error')
 });
 
 export default userSchema;
