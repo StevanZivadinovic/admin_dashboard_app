@@ -73,14 +73,12 @@ const result = userSchema.safeParse({
         isActive:Boolean(isActive),
       });
        await newUser.save()
-      // return{data:result.data}
+       return {succesMsg:result.success}
     }
     catch(err){
       const errorMessage = handleUsersErrors(err)
       return { error: errorMessage };
     }
-    revalidatePath("/dashboard/users");
-       redirect("/dashboard/users");
   }
   if(result.error){
     return {error:result.error.format()}
@@ -135,7 +133,6 @@ export const updateUser = async (state:any, formData:FormData) => {
           isAdmin,
           isActive,
         };
-        console.log(Object.keys(updateFields))
         Object.keys(updateFields).forEach(
           (key) =>
             //@ts-ignore
@@ -143,14 +140,13 @@ export const updateUser = async (state:any, formData:FormData) => {
         );
     
         await User.findByIdAndUpdate(id, updateFields);
+        
+        return {succesMsg:result.success}
       } catch (err) {
         console.log(err);
         const errorMessage = handleUsersErrors(err)
-      return { error: errorMessage };
-      }
-      
-      revalidatePath("/dashboard/users");
-      redirect("/dashboard/users");
+        return { error: errorMessage };
+      }     
     }
     if(result.error){
       return {error:result.error.format()}

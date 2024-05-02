@@ -4,13 +4,25 @@ import { SubmitBtn } from "@/app/components/global/SubmitBtn";
 import {ErrorFormDisplay} from "@/app/components/global/ErrorFormDisplay";
 import { addNewProducts } from "@/src/api/products/products";
 import { useFormState } from "react-dom";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { redirectAfterSubmit } from "@/src/helperFunc/globalFunc";
+import FormSubmitMsg from "@/app/components/global/FormSubmitMsg";
 
 
 const AddProductPage = () => {
+  const router = useRouter();
   const [state, formAction]=useFormState(addNewProducts, null)
+  const [displayAddedMsg, setDisplayAddedMsg] = useState(false);
+
+  useEffect(() => {
+    redirectAfterSubmit('/dashboard/products', router, state?.succesMsg, setDisplayAddedMsg)
+  }, [state?.succesMsg])
   return (
-    <div className="bg-bgSoft mt-4">
-      <form  action={formAction} className="p-4">
+    <div className="bg-bgSoft mt-4 relative">
+      <form  action={formAction} className={`p-4 ${
+          displayAddedMsg ? "blur" : ""
+        }`}>
         <div className="flex justify-between mb-8">
           <div className="flex flex-col w-[45%]">
           <div className="title">
@@ -54,6 +66,7 @@ const AddProductPage = () => {
         </div>
         <SubmitBtn/>
       </form>
+      <FormSubmitMsg type={"Product"} display={displayAddedMsg} typeOfMessage={'added'}/>
     </div>
   );
 };

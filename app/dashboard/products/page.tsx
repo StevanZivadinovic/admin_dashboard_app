@@ -4,6 +4,8 @@ import DeleteProductBtn from "@/app/components/global/DeleteProductBtn";
 import DeleteUserProductMsg from "@/app/components/global/DeleteUserProductMsg";
 import { getProducts } from "@/src/api/products/products";
 import { ProductsType } from "@/src/consts/Types";
+import { truncateText } from "@/src/helperFunc/globalFunc";
+import {Tooltip} from "@nextui-org/tooltip";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -56,10 +58,14 @@ const Products = async ({ searchParams }) => {
                     height={40}
                     className="rounded-[50%] mr-4"
                   />
-                  <p className="flex self-center">{product.title}</p>
+                  <Tooltip  placement={"top-start"}  offset={-1} content={product.title} className="bg-bgMoreSoft px-4 py-2 rounded-md max-w-[100px] break-words">
+                  <p className="flex self-center">{truncateText(product.title)}</p>
+                  </Tooltip>
                 </div>
               </td>
-              <td>{product.description}</td>
+              <Tooltip  placement={"top-start"}  offset={-25} content={product.desc} className="bg-bgMoreSoft px-4 py-2 rounded-md max-w-[500px]  break-words">
+              <td className="">{truncateText(product.desc)}</td>
+              </Tooltip>
               <td>{product.price}</td>
               <td>{product.createdAt?.toString().slice(4, 16)}</td>
               <td>{product.stock}</td>

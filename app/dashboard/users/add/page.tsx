@@ -3,12 +3,23 @@ import { SubmitBtn } from "@/app/components/global/SubmitBtn";
 import {ErrorFormDisplay} from "@/app/components/global/ErrorFormDisplay";
 import { addNewusers } from "@/src/api/users/users";
 import { useFormState } from "react-dom";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { redirectAfterSubmit } from "@/src/helperFunc/globalFunc";
+import FormSubmitMsg from "@/app/components/global/FormSubmitMsg";
 
 const AddUserPage =  () => {
-  const [state, formAction]=useFormState(addNewusers, null)
+  const router = useRouter();
+  const [state, formAction]=useFormState(addNewusers, null);
+  const [displayAddedMsg, setDisplayAddedMsg] = useState(false);
+    useEffect(() => {
+    redirectAfterSubmit('/dashboard/users', router, state?.succesMsg, setDisplayAddedMsg)
+  }, [state?.succesMsg])
   return (
-    <div className="bg-bgSoft mt-4">
-      <form action={formAction}  className="p-4">
+    <div className="bg-bgSoft mt-4 relative">
+      <form action={formAction}  className={`p-4 ${
+          displayAddedMsg ? "blur" : ""
+        }`}>
         <div className="flex justify-between mb-8">
           <div className="flex flex-col w-[45%]">
             <div className="username">
@@ -82,6 +93,7 @@ const AddUserPage =  () => {
         </div>
         <SubmitBtn/>
       </form>
+        <FormSubmitMsg type={"User"} display={displayAddedMsg} typeOfMessage={'added'}/>
     </div>
   );
 };

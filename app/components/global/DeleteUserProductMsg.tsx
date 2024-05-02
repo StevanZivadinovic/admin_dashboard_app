@@ -1,6 +1,4 @@
 "use client"
-import { getLastWordFromURL } from '@/src/helperFunc/globalFunc';
-import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 interface DeleteUserProductMsgProps {

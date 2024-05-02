@@ -25,7 +25,7 @@ const SingleProductPage = async ({params}) => {
         />
         <p className="mt-4">{product?.title}</p>
       </div>
-      <UpdateProductForm product={product} id={id}/>
+      <UpdateProductForm product={product}/>
     </div>
   );
 };

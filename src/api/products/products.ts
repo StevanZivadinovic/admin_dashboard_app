@@ -1,12 +1,11 @@
 "use server"
-import { ProductsType, productFormErrorType } from "@/src/consts/Types";
+import { ProductsType } from "@/src/consts/Types";
 import { connectToDatabase } from "../mongoDB";
 import { Product } from "../models/Product";
 import { handleProductsErrors } from "@/src/helperFunc/handlingErrors";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import productSchema from './../zod/ProductShema'
-import { getLastWordFromURL } from "@/src/helperFunc/globalFunc";
 
 
 interface UserResponse {
@@ -38,7 +37,7 @@ export const getProducts = async (
     return { products, count, filteredProducts, ITEM_PER_PAGE };
   } catch (err) {
     console.log(err);
-    throw new Error("Failed to retrieve users");
+    throw new Error("Failed to retrieve products");
   }
 };
 
@@ -70,15 +69,13 @@ const result = productSchema.safeParse({
         size
       });
        await newProduct.save()
-      // return{data:result.data}
+       return {succesMsg:result.success}
     }
     catch(err){
       console.log(err, 'moongose error')
       const errorMessage = handleProductsErrors(err)
       return { error: errorMessage };
     }
-    revalidatePath("/dashboard/products");
-       redirect("/dashboard/products");
   }
   if(result.error){
     console.log(result.error, 'zodError')
@@ -145,13 +142,11 @@ export const updateProduct = async (state:any, formData:FormData) => {
         );
     
         await Product.findByIdAndUpdate(id, updateFields);
+        return {succesMsg:result.success}
       } catch (err) {
         const errorMessage = handleProductsErrors(err)
       return { error: errorMessage };
       }
-      
-      revalidatePath("/dashboard/products");
-      redirect("/dashboard/products");
     }
     if(result.error){
       return {error:result.error.format()}

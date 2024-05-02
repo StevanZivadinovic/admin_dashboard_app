@@ -1,16 +1,20 @@
 "use client"
 import { updateProduct } from '@/src/api/products/products';
 import { ProductsType } from '@/src/consts/Types';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom';
 import { ErrorFormDisplay } from '../../global/ErrorFormDisplay';
+import { redirectAfterSubmit } from '@/src/helperFunc/globalFunc';
+import { useRouter } from 'next/navigation';
+import FormSubmitMsg from '../../global/FormSubmitMsg';
+
 
 interface UpdateProductFormType{
-    product:ProductsType,
-    id:any
+    product:ProductsType
 } 
 
-const UpdateProductForm = ({product}:UpdateProductFormType, id:any) => {
+const UpdateProductForm = ({product}:UpdateProductFormType) => {
+    const router = useRouter();
     const [state, formAction]=useFormState(updateProduct, null);
     const [title, setTitle]=useState(product?.title);
     const [price, setPrice]=useState(product?.price);
@@ -18,15 +22,14 @@ const UpdateProductForm = ({product}:UpdateProductFormType, id:any) => {
     const [color, setColor]=useState(product?.color);
     const [size, setSize]=useState(product?.size);
     const [desc, setDesc]=useState(product?.desc);
+    const [displayUpdateMsg, setDisplayUpdateMsg] = useState(false);
 
-
-
-
-console.log(product?.desc, 'front je ovde')
-   
+   useEffect(() => {
+    redirectAfterSubmit('/dashboard/products', router, state?.succesMsg, setDisplayUpdateMsg)
+  }, [state?.succesMsg])
   return (
-    <div className="w-[75%]">
-    <form action={formAction} className="flex flex-col bg-bgSoft p-4 rounded-md">
+    <div className="w-[75%] relative">
+    <form action={formAction} className={`flex flex-col bg-bgSoft p-4 rounded-md ${displayUpdateMsg ? 'blur':''}`}>
       <input type="hidden" name="id" value={product?._id} />
       <div className="title">
       <label>Title</label>
@@ -113,6 +116,7 @@ console.log(product?.desc, 'front je ovde')
         Update
       </button>
     </form>
+    <FormSubmitMsg type={'Product'} display={displayUpdateMsg} typeOfMessage={'updated'}/>
   </div>
   )
 }
