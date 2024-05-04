@@ -48,14 +48,13 @@ export const {
         try {
           const res = await login(credentials);
           console.log(res, 'USER');
+          return res;
         } catch (err) {
-   
-            // new CredentialsSignin(`Failed to login! Please check your credentials.`)
-          
-          console.error("Authorization error:", err);
           console.log(err);
+          return null;
 
         }
+        
       },
       
     }),

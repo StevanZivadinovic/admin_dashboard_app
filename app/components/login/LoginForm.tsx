@@ -1,6 +1,7 @@
 "use client";
 
 import { handleCredentials } from "@/src/api/users/users";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 import { useFormState } from "react-dom";
 import { string } from "zod";
@@ -14,12 +15,14 @@ const LoginForm = () => {
 
     try {
       const response = await handleCredentials(formData);
+      console.log(response, "CLIENT")
       //@ts-ignore
       if (response.error) {
-      //@ts-ignore
+        //@ts-ignore
         setErrorMessage(response.error);
       } else {
         // Handle successful login
+        redirect('/')
       }
     } catch (err) {
       console.error("Error during login:", err);

@@ -4,11 +4,10 @@ import { connectToDatabase } from "../mongoDB";
 import { User } from "./../../api/models/Users";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import userSchema from "./../../api/zod/UserShema";
 import { handleUsersErrors } from "./../../helperFunc/handlingErrors";
 import { signIn } from "@/auth";
-import router from "next/navigation";
+
 
 interface UserResponse {
   users: UserType[];
@@ -166,18 +165,16 @@ export const updateUser = async (state: any, formData: FormData) => {
   }
 };
 
-export const handleCredentials = (
+export const handleCredentials =async  (
   formData: { get: (arg0: string) => any }
 ) => {
   try {
-    const response = signIn("credentials", {
+    const response =await signIn("credentials", {
       username: formData.get("username"),
       password: formData.get("password"),
       redirect: false,
-    }).then((data)=>{
-      console.log(data, 'najnoviji')
     })
-    // console.log(response, 'najnoviji');
+    console.log(response, 'najnoviji');
     return response;
   } catch (err) {
     return err;
