@@ -1,12 +1,14 @@
-"use server"
+"use server";
 import { UserType } from "@/src/consts/Types";
 import { connectToDatabase } from "../mongoDB";
 import { User } from "./../../api/models/Users";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import userSchema from './../../api/zod/UserShema'
-import {handleUsersErrors} from './../../helperFunc/handlingErrors'
+import userSchema from "./../../api/zod/UserShema";
+import { handleUsersErrors } from "./../../helperFunc/handlingErrors";
+import { signIn } from "@/auth";
+import router from "next/navigation";
 
 interface UserResponse {
   users: UserType[];
@@ -40,59 +42,64 @@ export const getUsers = async (
   }
 };
 
-export const addNewusers = async (state:any, formData: FormData)=>{
-  const { username, email, password, phone, address, isAdmin, isActive,image } =
-  Object.fromEntries(formData);
+export const addNewusers = async (state: any, formData: FormData) => {
+  const {
+    username,
+    email,
+    password,
+    phone,
+    address,
+    isAdmin,
+    isActive,
+    image,
+  } = Object.fromEntries(formData);
   const parsedPhone = parseInt(phone as string);
   //@ts-ignore
   const ImagePath = image?.name as File;
-const result = userSchema.safeParse({
+  const result = userSchema.safeParse({
     username,
-      email,
-      password,
-      phone:parsedPhone,
-      address,
-      isAdmin,
-      isActive,
-      img:ImagePath
-      
-  })
+    email,
+    password,
+    phone: parsedPhone,
+    address,
+    isAdmin,
+    isActive,
+    img: ImagePath,
+  });
   // console.log(image, 'my image')
-  if(result.success){
-    
-    try{
+  if (result.success) {
+    try {
       connectToDatabase();
 
       const salt = await bcrypt.genSalt(10);
       //@ts-ignore
-      const hashedPassword =await bcrypt.hash(password, salt);
-  
+      const hashedPassword = await bcrypt.hash(password, salt);
+
       const newUser = new User({
         username,
         email,
         password: hashedPassword,
-        phone:parsedPhone,
+        phone: parsedPhone,
         address,
-        isAdmin:Boolean(isAdmin),
-        isActive:Boolean(isActive),
-        img:ImagePath
+        isAdmin: Boolean(isAdmin),
+        isActive: Boolean(isActive),
+        img: ImagePath,
       });
-       await newUser.save()
-       return {succesMsg:result.success}
-    }
-    catch(err){
-      console.log(err)
-      const errorMessage = handleUsersErrors(err)
+      await newUser.save();
+      return { succesMsg: result.success };
+    } catch (err) {
+      console.log(err);
+      const errorMessage = handleUsersErrors(err);
       return { error: errorMessage };
     }
   }
-  if(result.error){
-    console.log(result.error)
-    return {error:result.error.format()}
+  if (result.error) {
+    console.log(result.error);
+    return { error: result.error.format() };
   }
-}
+};
 
-export const deleteUser = async (id:number) => {
+export const deleteUser = async (id: number) => {
   try {
     connectToDatabase();
     await User.findByIdAndDelete(id);
@@ -103,8 +110,7 @@ export const deleteUser = async (id:number) => {
   revalidatePath("/dashboard/users");
 };
 
-
-export const fetchUser = async (id:number) => {
+export const fetchUser = async (id: number) => {
   try {
     connectToDatabase();
     const user = await User.findById(id);
@@ -114,49 +120,67 @@ export const fetchUser = async (id:number) => {
   }
 };
 
-export const updateUser = async (state:any, formData:FormData) => {
+export const updateUser = async (state: any, formData: FormData) => {
   const { id, username, email, password, phone, address, isAdmin, isActive } =
     Object.fromEntries(formData);
-    const parsedPhone = parseInt(phone as string);
-    const result = userSchema.safeParse({
-      username,
+  const parsedPhone = parseInt(phone as string);
+  const result = userSchema.safeParse({
+    username,
+    email,
+    password,
+    phone: parsedPhone,
+    address,
+    isAdmin,
+    isActive,
+  });
+  if (result.success) {
+    try {
+      connectToDatabase();
+      console.log("ovde sam");
+      const updateFields = {
+        username,
         email,
         password,
-        phone:parsedPhone,
+        phone,
         address,
         isAdmin,
-        isActive
+        isActive,
+      };
+      Object.keys(updateFields).forEach(
+        (key) =>
+          //@ts-ignore
+          (updateFields[key] === "" || undefined) && delete updateFields[key]
+      );
+
+      await User.findByIdAndUpdate(id, updateFields);
+
+      return { succesMsg: result.success };
+    } catch (err) {
+      console.log(err);
+      const errorMessage = handleUsersErrors(err);
+      return { error: errorMessage };
+    }
+  }
+  if (result.error) {
+    return { error: result.error.format() };
+  }
+};
+
+export const handleCredentials = (
+  formData: { get: (arg0: string) => any }
+) => {
+  try {
+    const response = signIn("credentials", {
+      username: formData.get("username"),
+      password: formData.get("password"),
+      redirect: false,
+    }).then((data)=>{
+      console.log(data, 'najnoviji')
     })
-    if(result.success){
-      try {
-        connectToDatabase();
-        console.log('ovde sam')
-        const updateFields = {
-          username,
-          email,
-          password,
-          phone,
-          address,
-          isAdmin,
-          isActive,
-        };
-        Object.keys(updateFields).forEach(
-          (key) =>
-            //@ts-ignore
-            (updateFields[key] === "" || undefined) && delete updateFields[key]
-        );
-    
-        await User.findByIdAndUpdate(id, updateFields);
-        
-        return {succesMsg:result.success}
-      } catch (err) {
-        console.log(err);
-        const errorMessage = handleUsersErrors(err)
-        return { error: errorMessage };
-      }     
-    }
-    if(result.error){
-      return {error:result.error.format()}
-    }
-  
+    // console.log(response, 'najnoviji');
+    return response;
+  } catch (err) {
+    return err;
+    // console.log(err);
+  }
 };
