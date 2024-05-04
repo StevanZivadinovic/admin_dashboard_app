@@ -174,10 +174,9 @@ export const handleCredentials =async  (
       password: formData.get("password"),
       redirect: false,
     })
-    console.log(response, 'najnoviji');
     return response;
   } catch (err) {
     return err;
-    // console.log(err);
+   
   }
 };

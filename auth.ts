@@ -32,9 +32,7 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
-  ...authConfig,
-  basePath: "/login",
-  // session: { strategy: "jwt" },
+  // ...authConfig,
 
   providers: [
     CredentialsProvider({
@@ -57,8 +55,30 @@ export const {
         
       },
       
+      
     }),
   ],
+  session: { strategy: "jwt" },//this is default behaviour by next.js
+  callbacks:{
+    redirect(params) {
+      return 'http://localhost:3000/dashboard'
+    },
+    async session({ session, token, user }) {
+      // session.accessToken = token.accessToken
+      // session.user.id = token.id
+      // session.user.name = user.name
+      console.log(session, token,user, 'SESSION');
+      
+      return session
+    },
+    async jwt({token, user}){
+      if(user){
+        token.username = user.username
+        token.img = user.image
+      }
+    }
+  },
+  
   secret:process.env.AUTH_CREDENTIALS_SECRET
 });
 

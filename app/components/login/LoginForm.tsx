@@ -1,13 +1,13 @@
 "use client";
 
 import { handleCredentials } from "@/src/api/users/users";
-import { redirect } from "next/navigation";
-import { useState } from "react";
-import { useFormState } from "react-dom";
-import { string } from "zod";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 
 const LoginForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter()
 
   const handleSubmit = async (event: { preventDefault: () => void; target: HTMLFormElement | undefined; }) => {
     event.preventDefault();
@@ -15,14 +15,13 @@ const LoginForm = () => {
 
     try {
       const response = await handleCredentials(formData);
-      console.log(response, "CLIENT")
+      router.push(response)
       //@ts-ignore
       if (response.error) {
         //@ts-ignore
         setErrorMessage(response.error);
       } else {
         // Handle successful login
-        redirect('/')
       }
     } catch (err) {
       console.error("Error during login:", err);

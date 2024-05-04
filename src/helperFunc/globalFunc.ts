@@ -1,5 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { RedirectType } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 
 export const capitalizeFirstLetter = (str: string | undefined): string => {
@@ -44,4 +45,14 @@ export const capitalizeFirstLetter = (str: string | undefined): string => {
       };
 
     }
+  }
+
+  export const handleRedirectAuthenticated=(session:any, redirect: { (url: string, type?: RedirectType | undefined): never; (arg0: string): void; })=>{
+    if(session?.user?.email ){
+           if(session && session?.user?.email?.length>0 && new Date(session?.expires)>new Date()){
+             // router.push('/dashboard')
+             redirect(`/dashboard`) // Navigate to the new post page
+           }
+         }
+         return true
   }

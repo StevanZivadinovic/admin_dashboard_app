@@ -1,21 +1,17 @@
-// import { auth, signIn } from "@/auth";
+import { auth } from "@/auth";
 import LoginForm from "../components/login/LoginForm";
+import { redirect } from 'next/navigation'
+import { handleRedirectAuthenticated } from "@/src/helperFunc/globalFunc";
 
-const LoginPage =  () => {
-  
-  // const response =  signIn("credentials", { 
-  //   username: 'pamper',
-  //   password: 'pamper',
-  //   redirect: false, 
-  //  });
-  //  const session =  auth();
-
-	// console.log(session, 'session');
-  //  console.log(response, 'auto response')
+const LoginPage = async () => {
+  const session = await auth();
+  console.log(session, 'SESSION')
   return (
-    <div className='flex justify-center flex-col h-[100vh]'>
-      <LoginForm/>
-    </div>
+    <>
+    {!handleRedirectAuthenticated(session, redirect) && <div className="flex justify-center flex-col h-[100vh]">
+      <LoginForm />
+    </div>}
+    </>
   );
 };
 
