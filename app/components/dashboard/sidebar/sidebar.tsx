@@ -4,6 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
 import MenuLink from './menuLink';
+import { MdLogout } from 'react-icons/md';
+import { signOut } from '@/auth';
+import Logout from '../logout/Logout';
 
  const Sidebar = () => {
   return (
@@ -32,6 +35,7 @@ import MenuLink from './menuLink';
             </li>
           )
         })}
+        <Logout/>
       </ul>
     </div>
 

@@ -32,7 +32,7 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
-  // ...authConfig,
+  ...authConfig,
 
   providers: [
     CredentialsProvider({
@@ -63,20 +63,20 @@ export const {
     redirect(params) {
       return 'http://localhost:3000/dashboard'
     },
-    async session({ session, token, user }) {
-      // session.accessToken = token.accessToken
-      // session.user.id = token.id
-      // session.user.name = user.name
-      console.log(session, token,user, 'SESSION');
-      
-      return session
-    },
-    async jwt({token, user}){
-      if(user){
-        token.username = user.username
-        token.img = user.image
-      }
-    }
+    // async jwt({ token, user }) {
+    //   if (user) {
+    //     token.username = user.username;
+    //     token.img = user.img;
+    //   }
+    //   return token;
+    // },
+    // async session({ session, token }) {
+    //   if (token) {
+    //     session.user.username = token.username;
+    //     session.user.img = token.img;
+    //   }
+    //   return session;
+    // },
   },
   
   secret:process.env.AUTH_CREDENTIALS_SECRET

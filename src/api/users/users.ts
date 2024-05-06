@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 import userSchema from "./../../api/zod/UserShema";
 import { handleUsersErrors } from "./../../helperFunc/handlingErrors";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 
 
 interface UserResponse {
@@ -180,3 +180,12 @@ export const handleCredentials =async  (
    
   }
 };
+
+export const handleLogout = async ()=>{
+  try{
+    await signOut()
+    console.log('Logout!')
+  }catch(err){
+    console.log(err);
+  }
+}

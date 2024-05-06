@@ -47,12 +47,14 @@ export const capitalizeFirstLetter = (str: string | undefined): string => {
     }
   }
 
-  export const handleRedirectAuthenticated=(session:any, redirect: { (url: string, type?: RedirectType | undefined): never; (arg0: string): void; })=>{
-    if(session?.user?.email ){
+  export const handleRedirectAuthenticated=async (session:any, redirect: { (url: string, type?: RedirectType | undefined): never; (arg0: string): void; })=>{
+    if(session?.user?.email !==null || session!==null){
            if(session && session?.user?.email?.length>0 && new Date(session?.expires)>new Date()){
-             // router.push('/dashboard')
-             redirect(`/dashboard`) // Navigate to the new post page
+            console.log('dashboard')
+            return redirect(`/dashboard`) 
            }
-         }
-         return true
+           return redirect(`/login`);
+         } else{
+ 
+      }
   }
