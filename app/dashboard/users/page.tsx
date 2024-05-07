@@ -54,7 +54,7 @@ return (
                     alt=""
                     width={40}
                     height={40}
-                    className='rounded-[50%] mr-4'
+                    className='rounded-[50%] mr-4 max-h-[40px]'
                   />
                   <Tooltip placement={"top-start"}  offset={-1} content={user?.username} className="bg-bgMoreSoft px-4 py-2 rounded-md max-w-[200px]">
                  <p className="flex self-center">{user?.username}</p> 
