@@ -16,10 +16,10 @@ const SingleUserPage = async ({ params }) => {
       >
         <Image
           className="w-full "
-          src={user?.img || "/images/noavatar.png"}
+          src={user?.img && user.img.startsWith("https") ? user.img : "/images/noavatar.png"}
           alt=""
-          width={30}
-          height={30}
+          width={150}
+          height={60}
           objectFit="cover"
         />
         <p className="mt-4">{user?.username}</p>

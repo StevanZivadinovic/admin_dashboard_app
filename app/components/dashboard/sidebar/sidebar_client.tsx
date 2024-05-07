@@ -14,10 +14,10 @@ const Sidebar_client = ({user}:SideBarClientType) => {
        <div className="userAvatar flex align-center">
         <div className="imgAvatar">
           <Image
-            className="rounded-[50%]"
+            className="rounded-[50%] max-h-[50px] max-w-[50px]"
             width={50}
             height={50}
-            src="/images/noavatar.png"
+            src={user?.img && user.img.startsWith("https") ? user.img : "/images/noavatar.png"}
             alt="avatar"
           />
         </div>
