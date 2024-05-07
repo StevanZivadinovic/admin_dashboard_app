@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import userSchema from "./../../api/zod/UserShema";
 import { handleUsersErrors } from "./../../helperFunc/handlingErrors";
 import { signIn, signOut } from "@/auth";
-
+import { redirect } from "next/navigation";
 
 interface UserResponse {
   users: UserType[];
@@ -165,27 +165,25 @@ export const updateUser = async (state: any, formData: FormData) => {
   }
 };
 
-export const handleCredentials =async  (
-  formData: { get: (arg0: string) => any }
-) => {
+export const handleCredentials = async (formData: {
+  get: (arg0: string) => any;
+}) => {
   try {
-    const response =await signIn("credentials", {
+    const response = await signIn("credentials", {
       username: formData.get("username"),
       password: formData.get("password"),
       redirect: false,
-    })
+    });
     return response;
   } catch (err) {
     return err;
-   
   }
 };
 
-export const handleLogout = async ()=>{
-  try{
-    await signOut()
-    console.log('Logout!')
-  }catch(err){
+export const handleLogout = async () => {
+  try {
+    await signOut();
+  } catch (err) {
     console.log(err);
   }
-}
+};

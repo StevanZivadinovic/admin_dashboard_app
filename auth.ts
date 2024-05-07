@@ -3,9 +3,8 @@ import { connectToDatabase } from "./src/api/mongoDB";
 import NextAuth, { CredentialsSignin } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import {authConfig} from './authconfig'
 
-const login = async (credentials: { username: any; password: any; }) => {
+const login = async (credentials: { username: any; password: any }) => {
   try {
     connectToDatabase();
     const user = await User.findOne({ username: credentials.username });
@@ -32,7 +31,9 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
-  ...authConfig,
+  pages: {
+    signIn: "/login",
+  },
 
   providers: [
     CredentialsProvider({
@@ -41,45 +42,40 @@ export const {
         password: { label: "Password", type: "password" },
       },
       //@ts-ignore
-      authorize: async (credentials: { username: any; password: any; }) =>{
-        console.log(credentials, 'credentials');
+      authorize: async (credentials: { username: any; password: any }) => {
+        console.log(credentials, "credentials");
         try {
           const res = await login(credentials);
-          console.log(res, 'USER');
+          console.log(res, "USER");
           return res;
         } catch (err) {
           console.log(err);
           return null;
-
         }
-        
       },
-      
-      
     }),
   ],
-  session: { strategy: "jwt" },//this is default behaviour by next.js
-  callbacks:{
-    redirect(params) {
-      return 'http://localhost:3000/dashboard'
+  session: { strategy: "jwt" }, //this is default behaviour by next.js
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        //@ts-ignore
+        token.username = user.username;
+        //@ts-ignore
+        token.img = user.img;
+      }
+      return token;
     },
-    // async jwt({ token, user }) {
-    //   if (user) {
-    //     token.username = user.username;
-    //     token.img = user.img;
-    //   }
-    //   return token;
-    // },
-    // async session({ session, token }) {
-    //   if (token) {
-    //     session.user.username = token.username;
-    //     session.user.img = token.img;
-    //   }
-    //   return session;
-    // },
+    async session({ session, token }) {
+      if (token) {
+        //@ts-ignore
+        session.user.username = token.username;
+        //@ts-ignore
+        session.user.img = token.img;
+      }
+      return session;
+    },
   },
-  
-  secret:process.env.AUTH_CREDENTIALS_SECRET
+
+  secret: process.env.AUTH_CREDENTIALS_SECRET,
 });
-
-

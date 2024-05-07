@@ -2,14 +2,21 @@ import { ReactNode } from "react";
 import Navbar from "../components/dashboard/navbar/navbar";
 import Sidebar from "../components/dashboard/sidebar/sidebar";
 import Footer from "../components/global/Footer";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
 
 interface LayoutProps {
     children: ReactNode;
 }
 
-const Leyout = ({children}:LayoutProps) => {
+const Leyout =async  ({children}:LayoutProps) => {
+  const session =await  auth();
+  console.log(session, "LAYOUT")
+  if (!session) return redirect('/login');
     return (
       <div className="flex">
+        
         <div className="w-[20%] bg-bgSoft p-[20px]">
             <Sidebar/>
         </div>
@@ -18,6 +25,7 @@ const Leyout = ({children}:LayoutProps) => {
             {children}
         <Footer/>
         </div>
+        
       </div>
     )
   }

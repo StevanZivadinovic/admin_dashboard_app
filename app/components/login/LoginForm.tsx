@@ -15,7 +15,7 @@ const LoginForm = () => {
 
     try {
       const response = await handleCredentials(formData);
-      router.push(response)
+      router.push('/dashboard')
       //@ts-ignore
       if (response.error) {
         //@ts-ignore

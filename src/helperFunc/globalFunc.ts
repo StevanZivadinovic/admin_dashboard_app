@@ -2,6 +2,7 @@ import { revalidatePath } from "next/cache";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { RedirectType } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
+import { handleLogout } from "../api/users/users";
 
 export const capitalizeFirstLetter = (str: string | undefined): string => {
     if (!str) return '';
@@ -47,14 +48,14 @@ export const capitalizeFirstLetter = (str: string | undefined): string => {
     }
   }
 
-  export const handleRedirectAuthenticated=async (session:any, redirect: { (url: string, type?: RedirectType | undefined): never; (arg0: string): void; })=>{
-    if(session?.user?.email !==null || session!==null){
-           if(session && session?.user?.email?.length>0 && new Date(session?.expires)>new Date()){
-            console.log('dashboard')
-            return redirect(`/dashboard`) 
-           }
-           return redirect(`/login`);
-         } else{
- 
-      }
+  export const handleLogoutFront = (router:AppRouterInstance)=>{
+    if(confirm('Do you sure to want to logout!')){
+      console.log()
+      handleLogout()
+      .then(()=>{
+        router.push("/login")
+      }).catch((err)=>{
+        console.log(err);
+      })
+    }
   }
