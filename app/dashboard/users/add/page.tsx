@@ -3,18 +3,41 @@ import { SubmitBtn } from "@/app/components/global/SubmitBtn";
 import { ErrorFormDisplay } from "@/app/components/global/ErrorFormDisplay";
 import { addNewusers } from "@/src/api/users/users";
 import { useFormState } from "react-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { redirectAfterSubmit } from "@/src/helperFunc/globalFunc";
 import FormSubmitMsg from "@/app/components/global/FormSubmitMsg";
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import {Cloudinary, CloudinaryImage} from "@cloudinary/url-gen";
 
+// cloudinary.config({
+//   cloud_name: 'dvayrzzpb',
+//   api_key: '927278486157215',
+//   api_secret: 'RHG04yrEov7ItQVcypAfeN9OpSg'
+// });
 
 const AddUserPage = () => {
   const router = useRouter();
   const [state, formAction] = useFormState(addNewusers, null);
   const [displayAddedMsg, setDisplayAddedMsg] = useState(false);
   const[imageAdded,setImageAdded]=useState('')
+  // const cld = new Cloudinary({cloud: {cloudName: 'dvayrzzpb'}});
+  // console.log(cld)
+  // //@ts-ignore
+  // cloudinary.uploader.upload("https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
+  // { public_id: "olympic_flag" }, 
+  // function(error, result) {console.log(result); });
+
+  // import {AdvancedImage} from "@cloudinary/react";
+  // import {fill} from "@cloudinary/url-gen/actions/resize";
+  
+  // const myImage = new CloudinaryImage('sample', {cloudName: 'your-cloud-name'}).resize(fill().width(100).height(150));
+  
+  // return (
+  //     <div>
+  //       <AdvancedImage cldImg={myImage} />
+  //     </div>
+  // )
   useEffect(() => {
     redirectAfterSubmit(
       "/dashboard/users",
@@ -23,6 +46,7 @@ const AddUserPage = () => {
       setDisplayAddedMsg
     );
   }, [state?.succesMsg]);
+
   return (
     <div className="bg-bgSoft mt-4 relative">
       <form
@@ -142,3 +166,4 @@ const AddUserPage = () => {
 };
 
 export default AddUserPage;
+

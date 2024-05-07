@@ -7,6 +7,14 @@ import { revalidatePath } from "next/cache";
 import userSchema from "./../../api/zod/UserShema";
 import { handleUsersErrors } from "./../../helperFunc/handlingErrors";
 import { signIn, signOut } from "@/auth";
+import {v2 as cloudinary} from 'cloudinary'
+import { resolve } from "path";
+
+cloudinary.config({
+  cloud_name: 'dvayrzzpb',
+  api_key: '927278486157215',
+  api_secret: 'RHG04yrEov7ItQVcypAfeN9OpSg'
+});
 
 
 interface UserResponse {
@@ -54,7 +62,28 @@ export const addNewusers = async (state: any, formData: FormData) => {
   } = Object.fromEntries(formData);
   const parsedPhone = parseInt(phone as string);
   //@ts-ignore
-  const ImagePath = image?.name as File;
+  const Image = image as File;
+  let imageUrl=''
+  const arrayBuffer = await Image.arrayBuffer();
+  const buffer = new Uint8Array(arrayBuffer)
+  try {
+    const resultForImage = await new Promise((resolve, reject) => {
+      // Upload image to Cloudinary
+      cloudinary.uploader.upload_stream({}, (error: any, resultIMG: any) => {
+        if (error) {
+          reject(error);
+        } else {
+          imageUrl=resultIMG.secure_url
+          resolve(resultIMG);
+        }
+      }).end(buffer);
+    });
+  }
+    catch(error){
+      console.log(error);
+      }
+ 
+  console.log(image, 'MYIMAGE')
   const result = userSchema.safeParse({
     username,
     email,
@@ -63,9 +92,8 @@ export const addNewusers = async (state: any, formData: FormData) => {
     address,
     isAdmin,
     isActive,
-    img: ImagePath,
+    img: imageUrl,
   });
-  // console.log(image, 'my image')
   if (result.success) {
     try {
       connectToDatabase();
@@ -82,7 +110,7 @@ export const addNewusers = async (state: any, formData: FormData) => {
         address,
         isAdmin: Boolean(isAdmin),
         isActive: Boolean(isActive),
-        img: ImagePath,
+        img: imageUrl,
       });
       await newUser.save();
       return { succesMsg: result.success };
@@ -95,7 +123,8 @@ export const addNewusers = async (state: any, formData: FormData) => {
   if (result.error) {
     console.log(result.error);
     return { error: result.error.format() };
-  }
+  } 
+
 };
 
 export const deleteUser = async (id: number) => {

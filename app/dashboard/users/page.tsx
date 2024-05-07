@@ -50,7 +50,7 @@ return (
               <td className="pt-4 pb-4">
                 <div className='flex'>
                   <Image
-                    src={`/${user?.img}` || "/images/noavatar.png"}
+                    src={user?.img && user.img.startsWith("https") ? user.img : "/images/noavatar.png"}
                     alt=""
                     width={40}
                     height={40}
