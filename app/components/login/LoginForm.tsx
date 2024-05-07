@@ -2,24 +2,42 @@
 
 import { handleCredentials } from "@/src/api/users/users";
 import { useRouter } from "next/navigation";
-import {  useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { SubmitBtn } from "../global/SubmitBtn";
 import { useFormState } from "react-dom";
 import { handleSubmit } from "@/src/helperFunc/globalFunc";
-
+import { ImSpinner } from "react-icons/im";
 
 const LoginForm = () => {
-  const router = useRouter()
-  const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState("");
   const displayBtn = useRef(false);
-  const [displaySpinner, setDisplaySpinner]=useState(false)
-  const [state, formAction] = useFormState((state: any, formData: { get: (arg0: string) => any; }) => handleSubmit(state, formData, handleCredentials, router, setErrorMessage, setDisplaySpinner), null);
-if(displaySpinner){
-  return <div className="flex flex-col w-[30%] justify-center self-center bg-bgSoft p-8 text-center">Loading...</div>
-}
+  const [displaySpinner, setDisplaySpinner] = useState(false);
+  const [state, formAction] = useFormState(
+    (state: any, formData: { get: (arg0: string) => any }) =>
+      handleSubmit(
+        state,
+        formData,
+        handleCredentials,
+        router,
+        setErrorMessage,
+        setDisplaySpinner
+      ),
+    null
+  );
+  if (displaySpinner) {
+    return (
+      <div className="flex flex-col w-[30%] justify-center self-center bg-bgSoft p-8 text-center">
+        <ImSpinner className="animate-spin h-8 w-8 mx-auto text-primary" />
+      </div>
+    );
+  }
   return (
-      //@ts-ignore
-    <form action={formAction}  className="flex flex-col w-[30%] justify-center self-center bg-bgSoft p-8">
+    //@ts-ignore
+    <form
+      action={formAction}
+      className="flex flex-col w-[30%] justify-center self-center bg-bgSoft p-8"
+    >
       <h1 className="text-center text-2xl mb-4 font-bold">Login</h1>
       <input
         className="bg-bg mb-4 p-4 outline-none border-bgMoreSoft border-[2px] rounded-md"
@@ -33,12 +51,15 @@ if(displaySpinner){
         placeholder="password"
         name="password"
       />
-      <SubmitBtn typeOfBtn="Login" padding={4} display={displayBtn.current} setDisplaySpinner={setDisplaySpinner}/>
+      <SubmitBtn
+        typeOfBtn="Login"
+        padding={4}
+        display={displayBtn.current}
+        setDisplaySpinner={setDisplaySpinner}
+      />
       <p className="text-redBtn mt-4">{errorMessage}</p>
     </form>
   );
 };
 
 export default LoginForm;
-
-

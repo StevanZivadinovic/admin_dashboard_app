@@ -97,7 +97,6 @@ export const handleSubmit = async (
       );
     }
   } catch (error) {
-    console.error("Error during login:", error);
     setDisplaySpinner(false)
     setErrorMessage("Failed to login. Check username and password!");
   }
