@@ -2,35 +2,24 @@
 
 import { handleCredentials } from "@/src/api/users/users";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import {  useRef, useState } from "react";
+import { SubmitBtn } from "../global/SubmitBtn";
+import { useFormState } from "react-dom";
+import { handleSubmit } from "@/src/helperFunc/globalFunc";
 
 
 const LoginForm = () => {
-  const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter()
-
-  const handleSubmit = async (event: { preventDefault: () => void; target: HTMLFormElement | undefined; }) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-
-    try {
-      const response = await handleCredentials(formData);
-      router.push('/dashboard')
-      //@ts-ignore
-      if (response.error) {
-        //@ts-ignore
-        setErrorMessage(response.error);
-      } else {
-        // Handle successful login
-      }
-    } catch (err) {
-      console.error("Error during login:", err);
-      setErrorMessage("Failed to login. Please try again.");
-    }
-  };
+  const [errorMessage, setErrorMessage] = useState('');
+  const displayBtn = useRef(false);
+  const [displaySpinner, setDisplaySpinner]=useState(false)
+  const [state, formAction] = useFormState((state: any, formData: { get: (arg0: string) => any; }) => handleSubmit(state, formData, handleCredentials, router, setErrorMessage, setDisplaySpinner), null);
+if(displaySpinner){
+  return <div className="flex flex-col w-[30%] justify-center self-center bg-bgSoft p-8 text-center">Loading...</div>
+}
   return (
-    //@ts-ignore
-    <form onSubmit={handleSubmit} className="flex flex-col w-[30%] justify-center self-center bg-bgSoft p-8">
+      //@ts-ignore
+    <form action={formAction}  className="flex flex-col w-[30%] justify-center self-center bg-bgSoft p-8">
       <h1 className="text-center text-2xl mb-4 font-bold">Login</h1>
       <input
         className="bg-bg mb-4 p-4 outline-none border-bgMoreSoft border-[2px] rounded-md"
@@ -44,8 +33,8 @@ const LoginForm = () => {
         placeholder="password"
         name="password"
       />
-      <button className="bg-greenBlueBtnDark p-4 rounded-sm">Login</button>
-      {errorMessage}
+      <SubmitBtn typeOfBtn="Login" padding={4} display={displayBtn.current} setDisplaySpinner={setDisplaySpinner}/>
+      <p className="text-redBtn mt-4">{errorMessage}</p>
     </form>
   );
 };

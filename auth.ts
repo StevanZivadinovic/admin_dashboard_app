@@ -46,10 +46,8 @@ export const {
         console.log(credentials, "credentials");
         try {
           const res = await login(credentials);
-          console.log(res, "USER");
           return res;
         } catch (err) {
-          console.log(err);
           return null;
         }
       },

@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import userSchema from "./../../api/zod/UserShema";
 import { handleUsersErrors } from "./../../helperFunc/handlingErrors";
 import { signIn, signOut } from "@/auth";
-import { redirect } from "next/navigation";
+
 
 interface UserResponse {
   users: UserType[];
@@ -174,9 +174,18 @@ export const handleCredentials = async (formData: {
       password: formData.get("password"),
       redirect: false,
     });
-    return response;
-  } catch (err) {
-    return err;
+
+    // Extract necessary information and return as plain object
+    const user = {
+      username: response.username,
+      // Add other necessary fields
+    };
+
+    return { user };
+  } catch (error) {
+    // Extract error information and return as plain object
+    const errorMessage = error || 'Failed to login'; // Fallback message if error doesn't have message
+    return { error: errorMessage };
   }
 };
 
