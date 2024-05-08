@@ -165,10 +165,13 @@ export const updateUser = async (state: any, formData: FormData) => {
     try {
       connectToDatabase();
       console.log("ovde sam");
+      const salt = await bcrypt.genSalt(10);
+      //@ts-ignore
+      const hashedPassword = await bcrypt.hash(password, salt);
       const updateFields = {
         username,
         email,
-        password,
+        password:hashedPassword,
         phone,
         address,
         isAdmin,

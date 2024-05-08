@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { redirectAfterSubmit } from "@/src/helperFunc/globalFunc";
 import FormSubmitMsg from "../../global/FormSubmitMsg";
 import { SubmitBtn } from "../../global/SubmitBtn";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 interface UpdateUserFormType {
   user: UserType;
 }
@@ -17,12 +18,17 @@ const UpdateUserForm = ({ user }: UpdateUserFormType) => {
   const [state, formAction] = useFormState(updateUser, null);
   const [username, setUsername] = useState(user?.username);
   const [email, setEmail] = useState(user?.email);
-  const [password, setPassword] = useState(user?.password);
+  const [password, setPassword] = useState('');
   const [phone, setPhone] = useState(user?.phone);
   const [address, setAddress] = useState(user?.address);
   const [isAdmin, setIsAdmin] = useState(user?.isAdmin || false);
   const [isActive, setIsActive] = useState(user?.isActive || false);
   const [displayUpdateMsg, setDisplayUpdateMsg] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+console.log(state)
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   useEffect(() => {
     redirectAfterSubmit(
@@ -72,16 +78,24 @@ const UpdateUserForm = ({ user }: UpdateUserFormType) => {
         </div>
         <div className="password">
           <label>Password</label>
+          <div className="relative ">
           <input
             className="w-full bg-bg mb-4 p-4 outline-none border-bgMoreSoft border-[2px] rounded-md"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             name="password"
-            placeholder={user?.password}
+            placeholder={''}
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
           />
+          <span
+          className="absolute right-3 top-[40%] transform -translate-y-1/2 cursor-pointer"
+          onClick={togglePasswordVisibility}
+        >
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
+        </span>
+          </div>
           <ErrorFormDisplay state={state?.error?.password} />
         </div>
         <div className="phone">

@@ -1,7 +1,7 @@
 "use server";
 
 import UpdateUserForm from "@/app/components/dashboard/updateUserForm/updateUserForm";
-import { fetchUser, updateUser } from "@/src/api/users/users";
+import { fetchUser } from "@/src/api/users/users";
 import Image from "next/image";
 
 //@ts-ignore

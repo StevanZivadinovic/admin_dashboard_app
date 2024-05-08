@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 import FormSubmitMsg from '../../global/FormSubmitMsg';
 import { SubmitBtn } from '../../global/SubmitBtn';
 
-
 interface UpdateProductFormType{
     product:ProductsType
 } 

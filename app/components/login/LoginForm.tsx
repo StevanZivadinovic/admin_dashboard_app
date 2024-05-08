@@ -7,12 +7,17 @@ import { SubmitBtn } from "../global/SubmitBtn";
 import { useFormState } from "react-dom";
 import { handleSubmit } from "@/src/helperFunc/globalFunc";
 import { ImSpinner } from "react-icons/im";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const LoginForm = () => {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
   const displayBtn = useRef(false);
   const [displaySpinner, setDisplaySpinner] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   const [state, formAction] = useFormState(
     (state: any, formData: { get: (arg0: string) => any }) =>
       handleSubmit(
@@ -45,12 +50,20 @@ const LoginForm = () => {
         placeholder="username"
         name="username"
       />
+      <div className="relative">
       <input
-        className="bg-bg mb-4 p-4 outline-none border-bgMoreSoft border-[2px] rounded-md"
-        type="password"
+        className="bg-bg mb-4 p-4 outline-none border-bgMoreSoft border-[2px] rounded-md w-full"
+        type={showPassword ? 'text' : 'password'}
         placeholder="password"
         name="password"
       />
+      <span
+          className="absolute right-3 top-[40%] transform -translate-y-1/2 cursor-pointer"
+          onClick={togglePasswordVisibility}
+        >
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
+        </span>
+      </div>
       <SubmitBtn
         typeOfBtn="Login"
         padding={4}
