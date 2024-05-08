@@ -9,6 +9,8 @@ import { redirectAfterSubmit } from "@/src/helperFunc/globalFunc";
 import FormSubmitMsg from "../../global/FormSubmitMsg";
 import { SubmitBtn } from "../../global/SubmitBtn";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import Image from "next/image";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 interface UpdateUserFormType {
   user: UserType;
 }
@@ -25,6 +27,7 @@ const UpdateUserForm = ({ user }: UpdateUserFormType) => {
   const [isActive, setIsActive] = useState(user?.isActive || false);
   const [displayUpdateMsg, setDisplayUpdateMsg] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [imageAdded, setImageAdded] = useState(user?.img? user?.img :"/images/noavatar.png");
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -39,14 +42,50 @@ const UpdateUserForm = ({ user }: UpdateUserFormType) => {
   }, [state?.succesMsg]);
 
   return (
-    <div className="w-[75%] relative">
+    <div className="w-[100%] relative ">
       <form
         action={formAction}
-        className={`flex flex-col bg-bgSoft p-4 rounded-md ${
+        className={`flex w-[100%] bg-bgSoft p-4 rounded-md ${
           displayUpdateMsg ? "blur" : ""
         }`}
       >
-        <input type="hidden" name="id" value={user?._id} />
+       <div className="w-[20%] h-[350px] cursor-pointer mb-4 p-8 rounded-md relative overflow-hidden  flex mr-8">
+  <label
+    htmlFor="imageInput"
+    className="absolute text-center w-full h-full top-0 left-0 cursor-pointer leading-[3.75rem]"
+  >
+    {imageAdded.length > 0 ? (
+      <Image
+        className="w-[100%] cursor-pointer rounded-md"
+        src={imageAdded}
+        alt=""
+        width={150}
+        height={60}
+        objectFit="cover"
+      />
+    ) : (
+      <>
+        Choose user image
+        <AttachFileIcon sx={{ mr: 1 }} />
+      </>
+    )}
+    <input
+      id="imageInput"
+      type="file"
+      name="image"
+      className="hidden"
+      accept=".jpg, .jpeg, .png, .gif, .svg"
+      onChange={(e) => {
+        if (e.target.files && e.target.files[0]) {
+          setImageAdded(URL.createObjectURL(e.target.files[0]));
+        }
+      }}
+    />
+  
+  </label>
+</div>
+      <div className="w-[75%]">
+      <input type="hidden" name="id" value={user?._id} />
         <div className="username">
           <label>Username</label>
           <input
@@ -76,7 +115,7 @@ const UpdateUserForm = ({ user }: UpdateUserFormType) => {
           <ErrorFormDisplay state={state?.error?.email} />
         </div>
         <div className="password">
-          <label>Password</label>
+          <label>New password</label>
           <div className="relative ">
           <input
             className="w-full bg-bg mb-4 p-4 outline-none border-bgMoreSoft border-[2px] rounded-md"
@@ -153,6 +192,8 @@ const UpdateUserForm = ({ user }: UpdateUserFormType) => {
           {<ErrorFormDisplay state={state?.error?.isActive} />}
         </div>
         <SubmitBtn typeOfBtn={'Update'} display={displayUpdateMsg} padding={4}/>
+      </div>
+        
       </form>
       <FormSubmitMsg type={"User"} display={displayUpdateMsg} typeOfMessage={'updated'}/>
     </div>

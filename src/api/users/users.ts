@@ -4,18 +4,18 @@ import { connectToDatabase } from "../mongoDB";
 import { User } from "./../../api/models/Users";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
-import userSchema from "./../../api/zod/UserShema";
+import { userSchema, updateUserSchema } from "./../../api/zod/UserShema";
 import { handleUsersErrors } from "./../../helperFunc/handlingErrors";
 import { signIn, signOut } from "@/auth";
-import {v2 as cloudinary} from 'cloudinary'
+import { v2 as cloudinary } from "cloudinary";
 import { resolve } from "path";
+import { ImGoogleDrive } from "react-icons/im";
 
 cloudinary.config({
-  cloud_name: 'dvayrzzpb',
-  api_key: '927278486157215',
-  api_secret: 'RHG04yrEov7ItQVcypAfeN9OpSg'
+  cloud_name: "dvayrzzpb",
+  api_key: "927278486157215",
+  api_secret: "RHG04yrEov7ItQVcypAfeN9OpSg",
 });
-
 
 interface UserResponse {
   users: UserType[];
@@ -63,27 +63,28 @@ export const addNewusers = async (state: any, formData: FormData) => {
   const parsedPhone = parseInt(phone as string);
   //@ts-ignore
   const Image = image as File;
-  let imageUrl=''
+  let imageUrl = "";
   const arrayBuffer = await Image.arrayBuffer();
-  const buffer = new Uint8Array(arrayBuffer)
+  const buffer = new Uint8Array(arrayBuffer);
   try {
     const resultForImage = await new Promise((resolve, reject) => {
       // Upload image to Cloudinary
-      cloudinary.uploader.upload_stream({}, (error: any, resultIMG: any) => {
-        if (error) {
-          reject(error);
-        } else {
-          imageUrl=resultIMG.secure_url
-          resolve(resultIMG);
-        }
-      }).end(buffer);
+      cloudinary.uploader
+        .upload_stream({}, (error: any, resultIMG: any) => {
+          if (error) {
+            reject(error);
+          } else {
+            imageUrl = resultIMG.secure_url;
+            resolve(resultIMG);
+          }
+        })
+        .end(buffer);
     });
+  } catch (error) {
+    console.log(error);
   }
-    catch(error){
-      console.log(error);
-      }
- 
-  console.log(image, 'MYIMAGE')
+
+  console.log(image, "MYIMAGE");
   const result = userSchema.safeParse({
     username,
     email,
@@ -123,8 +124,7 @@ export const addNewusers = async (state: any, formData: FormData) => {
   if (result.error) {
     console.log(result.error);
     return { error: result.error.format() };
-  } 
-
+  }
 };
 
 export const deleteUser = async (id: number) => {
@@ -149,10 +149,19 @@ export const fetchUser = async (id: number) => {
 };
 
 export const updateUser = async (state: any, formData: FormData) => {
-  const { id, username, email, password, phone, address, isAdmin, isActive } =
-    Object.fromEntries(formData);
+  const {
+    id,
+    username,
+    email,
+    password,
+    phone,
+    address,
+    isAdmin,
+    isActive,
+    image,
+  } = Object.fromEntries(formData);
   const parsedPhone = parseInt(phone as string);
-  const result = userSchema.safeParse({
+  const result = updateUserSchema.safeParse({
     username,
     email,
     password,
@@ -160,23 +169,57 @@ export const updateUser = async (state: any, formData: FormData) => {
     address,
     isAdmin,
     isActive,
+    image,
   });
+  // console.log(image, "IMAGE");
   if (result.success) {
     try {
       connectToDatabase();
-      console.log("ovde sam");
       const salt = await bcrypt.genSalt(10);
       //@ts-ignore
       const hashedPassword = await bcrypt.hash(password, salt);
-      const updateFields = {
-        username,
-        email,
-        password:hashedPassword,
-        phone,
-        address,
-        isAdmin,
-        isActive,
-      };
+      const Image = image as File;
+      let imageUrl = "";
+      const arrayBuffer = await Image.arrayBuffer();
+      const buffer = new Uint8Array(arrayBuffer);
+      try {
+        const resultForImage = await new Promise((resolve, reject) => {
+          // Upload image to Cloudinary
+          cloudinary.uploader
+            .upload_stream({}, (error: any, resultIMG: any) => {
+              if (error) {
+                reject(error);
+              } else {
+                imageUrl = resultIMG.secure_url;
+                resolve(resultIMG);
+              }
+            })
+            .end(buffer);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      console.log(imageUrl, "IMAGE URL CLOUD")
+      const updateFields = hashedPassword
+        ? {
+            username,
+            email,
+            password: hashedPassword,
+            phone,
+            address,
+            isAdmin,
+            isActive,
+            img:imageUrl,
+          }
+        : {
+            username,
+            email,
+            phone,
+            address,
+            isAdmin,
+            isActive,
+            img:imageUrl,
+          };
       Object.keys(updateFields).forEach(
         (key) =>
           //@ts-ignore
@@ -193,6 +236,7 @@ export const updateUser = async (state: any, formData: FormData) => {
     }
   }
   if (result.error) {
+    console.log(result.error)
     return { error: result.error.format() };
   }
 };
@@ -216,7 +260,7 @@ export const handleCredentials = async (formData: {
     return { user };
   } catch (error) {
     // Extract error information and return as plain object
-    const errorMessage = error || 'Failed to login'; // Fallback message if error doesn't have message
+    const errorMessage = error || "Failed to login"; // Fallback message if error doesn't have message
     return { error: errorMessage };
   }
 };

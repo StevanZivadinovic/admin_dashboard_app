@@ -33,7 +33,6 @@ export const getProducts = async (
       .limit(ITEM_PER_PAGE);
 
       filteredProducts = await Product.find(searchQuery);
-      console.log(q)
     return { products, count, filteredProducts, ITEM_PER_PAGE };
   } catch (err) {
     console.log(err);
@@ -84,8 +83,6 @@ const result = productSchema.safeParse({
 }
 
 export const deleteProduct = async (id:number) => {
-
-  console.log(id, 'idOf');
   try {
     connectToDatabase();
     await Product.findByIdAndDelete(id);

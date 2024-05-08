@@ -23,8 +23,6 @@ const Users =async  ({ searchParams }) => {
   const page = searchParams?.page || 1;
 const {users, count, filteredUsers, ITEM_PER_PAGE}:usersDataType =  await getUsers(q, page)
 const pickedUsers = filteredUsers.length <= ITEM_PER_PAGE ? filteredUsers:users
-
-console.log(users)
 return (
     <div className='bg-bgSoft mt-4 p-4'>
       <div className='flex justify-between'>

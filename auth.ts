@@ -43,7 +43,6 @@ export const {
       },
       //@ts-ignore
       authorize: async (credentials: { username: any; password: any }) => {
-        console.log(credentials, "credentials");
         try {
           const res = await login(credentials);
           return res;

@@ -11,7 +11,6 @@ interface submitBtnType{
 
 export const SubmitBtn = ({display, typeOfBtn, padding, setDisplaySpinner}:submitBtnType) => {
     const { pending } = useFormStatus()
-    console.log(pending)
     useEffect(() => {
       setDisplaySpinner && setDisplaySpinner(pending)
     }, [pending])

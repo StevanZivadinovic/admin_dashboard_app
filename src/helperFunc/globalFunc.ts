@@ -54,7 +54,6 @@ export const redirectAfterSubmit = (
 
 export const handleLogoutFront = (router: AppRouterInstance) => {
   if (confirm("Do you sure to want to logout!")) {
-    console.log();
     handleLogout()
       .then(() => {
         router.push("/login");

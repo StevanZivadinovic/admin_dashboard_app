@@ -12,7 +12,6 @@ interface LayoutProps {
 
 const Leyout =async  ({children}:LayoutProps) => {
   const session =await  auth();
-  console.log(session, "LAYOUT")
   if (!session) return redirect('/login');
     return (
       <div className="flex">

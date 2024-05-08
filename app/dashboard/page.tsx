@@ -7,7 +7,6 @@ import { auth } from "@/auth";
 
 const Dashboard =async  () => {
   const session = await auth();
-  console.log(session, 'SESSION')
  
   return (
     <>

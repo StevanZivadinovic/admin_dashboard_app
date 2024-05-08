@@ -8,7 +8,6 @@ interface SideBarClientType{
 }
 
 const Sidebar_client = ({user}:SideBarClientType) => {
-  console.log(user, "SIDE")
   return (
     <div>
        <div className="userAvatar flex align-center">
