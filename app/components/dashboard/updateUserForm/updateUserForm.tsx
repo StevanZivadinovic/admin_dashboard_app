@@ -25,7 +25,6 @@ const UpdateUserForm = ({ user }: UpdateUserFormType) => {
   const [isActive, setIsActive] = useState(user?.isActive || false);
   const [displayUpdateMsg, setDisplayUpdateMsg] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-console.log(state)
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };

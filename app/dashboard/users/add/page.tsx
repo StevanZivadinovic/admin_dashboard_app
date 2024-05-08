@@ -3,41 +3,23 @@ import { SubmitBtn } from "@/app/components/global/SubmitBtn";
 import { ErrorFormDisplay } from "@/app/components/global/ErrorFormDisplay";
 import { addNewusers } from "@/src/api/users/users";
 import { useFormState } from "react-dom";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { redirectAfterSubmit } from "@/src/helperFunc/globalFunc";
 import FormSubmitMsg from "@/app/components/global/FormSubmitMsg";
-import AttachFileIcon from '@mui/icons-material/AttachFile';
-import {Cloudinary, CloudinaryImage} from "@cloudinary/url-gen";
-
-// cloudinary.config({
-//   cloud_name: 'dvayrzzpb',
-//   api_key: '927278486157215',
-//   api_secret: 'RHG04yrEov7ItQVcypAfeN9OpSg'
-// });
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const AddUserPage = () => {
   const router = useRouter();
   const [state, formAction] = useFormState(addNewusers, null);
   const [displayAddedMsg, setDisplayAddedMsg] = useState(false);
-  const[imageAdded,setImageAdded]=useState('')
-  // const cld = new Cloudinary({cloud: {cloudName: 'dvayrzzpb'}});
-  // console.log(cld)
-  // //@ts-ignore
-  // cloudinary.uploader.upload("https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
-  // { public_id: "olympic_flag" }, 
-  // function(error, result) {console.log(result); });
+  const [imageAdded, setImageAdded] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
-  // import {AdvancedImage} from "@cloudinary/react";
-  // import {fill} from "@cloudinary/url-gen/actions/resize";
-  
-  // const myImage = new CloudinaryImage('sample', {cloudName: 'your-cloud-name'}).resize(fill().width(100).height(150));
-  
-  // return (
-  //     <div>
-  //       <AdvancedImage cldImg={myImage} />
-  //     </div>
-  // )
   useEffect(() => {
     redirectAfterSubmit(
       "/dashboard/users",
@@ -65,15 +47,23 @@ const AddUserPage = () => {
               />
               <ErrorFormDisplay state={state?.error?.username} />
             </div>
+            <div className="relative">
+              <div className="password">
+                <input
+                  className="bg-bg mb-4 p-8 rounded-md w-full"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="password"
+                  name="password"
+                  required
+                />
+                <span
+                  className="absolute right-3 top-[40%] transform -translate-y-1/2 cursor-pointer"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
 
-            <div className="password">
-              <input
-                className="bg-bg mb-4 p-8 rounded-md w-full"
-                type="password"
-                placeholder="password"
-                name="password"
-                required
-              />
               <ErrorFormDisplay state={state?.error?.password} />
             </div>
             <div className="isAdmin">
@@ -125,23 +115,22 @@ const AddUserPage = () => {
             htmlFor="imageInput"
             className="aboslute text-center w-full h-full absolute top-0 left-0 cursor-pointer leading-[3.75rem]"
           >
-            {imageAdded.length>0 ? imageAdded:'Choose user image'  }
-            {imageAdded.length<=0 && <AttachFileIcon sx={{ mr: 1 }} />}
+            {imageAdded.length > 0 ? imageAdded : "Choose user image"}
+            {imageAdded.length <= 0 && <AttachFileIcon sx={{ mr: 1 }} />}
             <input
               id="imageInput"
               type="file"
               name="image"
               className="hidden"
               accept=".jpg, .jpeg, .png, .gif, .svg"
-              onChange={(e)=>{
-                if(e.target.value.length>0 && e.target.files){                  
-                  setImageAdded(e.target.value)
-                  console.log(URL.createObjectURL(e.target.files[0]))
+              onChange={(e) => {
+                if (e.target.value.length > 0 && e.target.files) {
+                  setImageAdded(e.target.value);
+                  console.log(URL.createObjectURL(e.target.files[0]));
                 }
               }}
             />
           </label>
-              
         </div>
 
         <div className="">
@@ -166,4 +155,3 @@ const AddUserPage = () => {
 };
 
 export default AddUserPage;
-
