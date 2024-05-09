@@ -11,20 +11,7 @@ const SingleProductPage = async ({params}) => {
 
   return (
     <div className="flex mt-4 justify-between">
-      <div
-        style={{ height: "max-content" }}
-        className="w-[20%] p-4 bg-bgSoft rounded-md"
-      >
-        <Image
-          className="w-full "
-          src={product?.img || "/images/noavatar.png"}
-          alt=""
-          width={130}
-          height={30}
-          objectFit="cover"
-        />
-        <p className="mt-4">{product?.title}</p>
-      </div>
+     
       <UpdateProductForm product={product}/>
     </div>
   );

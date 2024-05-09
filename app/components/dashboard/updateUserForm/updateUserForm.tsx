@@ -42,10 +42,10 @@ const UpdateUserForm = ({ user }: UpdateUserFormType) => {
   }, [state?.succesMsg]);
 
   return (
-    <div className="w-[100%] relative ">
+    <div className="w-full relative ">
       <form
         action={formAction}
-        className={`flex w-[100%] bg-bgSoft p-4 rounded-md ${
+        className={`flex w-full bg-bgSoft p-4 rounded-md ${
           displayUpdateMsg ? "blur" : ""
         }`}
       >

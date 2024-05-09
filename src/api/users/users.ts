@@ -177,28 +177,29 @@ export const updateUser = async (state: any, formData: FormData) => {
       const salt = await bcrypt.genSalt(10);
       //@ts-ignore
       const hashedPassword = await bcrypt.hash(password, salt);
-      const Image = image as File;
       let imageUrl = "";
-      const arrayBuffer = await Image.arrayBuffer();
-      const buffer = new Uint8Array(arrayBuffer);
-      try {
-        const resultForImage = await new Promise((resolve, reject) => {
-          // Upload image to Cloudinary
-          cloudinary.uploader
-            .upload_stream({}, (error: any, resultIMG: any) => {
-              if (error) {
-                reject(error);
-              } else {
-                imageUrl = resultIMG.secure_url;
-                resolve(resultIMG);
-              }
-            })
-            .end(buffer);
-        });
-      } catch (error) {
-        console.log(error);
+      if(image){
+        const Image = image as File;
+        const arrayBuffer = await Image.arrayBuffer();
+        const buffer = new Uint8Array(arrayBuffer);
+        try {
+          const resultForImage = await new Promise((resolve, reject) => {
+            // Upload image to Cloudinary
+            cloudinary.uploader
+              .upload_stream({}, (error: any, resultIMG: any) => {
+                if (error) {
+                  reject(error);
+                } else {
+                  imageUrl = resultIMG.secure_url;
+                  resolve(resultIMG);
+                }
+              })
+              .end(buffer);
+          });
+        } catch (error) {
+          console.log(error);
+        }
       }
-      console.log(imageUrl, "IMAGE URL CLOUD")
       const updateFields = hashedPassword
         ? {
             username,
