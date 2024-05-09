@@ -56,7 +56,7 @@ const Products = async ({ searchParams }) => {
                     alt=""
                     width={40}
                     height={40}
-                    className="rounded-[50%] mr-4"
+                    className="rounded-[50%] mr-4 max-h-[40px]"
                   />
                   <Tooltip  placement={"top-start"}  offset={-1} content={product.title} className="bg-bgMoreSoft px-4 py-2 rounded-md max-w-[100px] break-words">
                   <p className="flex self-center">{truncateText(product.title)}</p>

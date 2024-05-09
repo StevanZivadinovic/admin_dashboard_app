@@ -5,7 +5,7 @@ import { z } from 'zod';
     desc: z.string().min(10,  'Description is minimum 10 characters!'),
     price: z.number().min(1),
     stock: z.number().min(0),
-    img: z.string().optional(),
+    image: z.any().optional(),
     color: z.string().optional(),
     size: z.string().optional(),
 }).strict();

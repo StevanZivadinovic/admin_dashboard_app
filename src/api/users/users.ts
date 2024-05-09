@@ -8,8 +8,7 @@ import { userSchema, updateUserSchema } from "./../../api/zod/UserShema";
 import { handleUsersErrors } from "./../../helperFunc/handlingErrors";
 import { signIn, signOut } from "@/auth";
 import { v2 as cloudinary } from "cloudinary";
-import { resolve } from "path";
-import { ImGoogleDrive } from "react-icons/im";
+
 
 cloudinary.config({
   cloud_name: "dvayrzzpb",

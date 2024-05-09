@@ -19,7 +19,7 @@ const SingleProductPage = async ({params}) => {
           className="w-full "
           src={product?.img || "/images/noavatar.png"}
           alt=""
-          width={30}
+          width={130}
           height={30}
           objectFit="cover"
         />

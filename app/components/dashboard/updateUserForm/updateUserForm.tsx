@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { UserType } from "@/src/consts/Types";
 import { updateUser } from "@/src/api/users/users";
-import { useFormState, useFormStatus } from "react-dom";
+import { useFormState } from "react-dom";
 import { ErrorFormDisplay } from "../../global/ErrorFormDisplay";
 import { useRouter } from "next/navigation";
 import { redirectAfterSubmit } from "@/src/helperFunc/globalFunc";
