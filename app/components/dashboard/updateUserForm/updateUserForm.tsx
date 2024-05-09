@@ -40,7 +40,6 @@ const UpdateUserForm = ({ user }: UpdateUserFormType) => {
       setDisplayUpdateMsg
     );
   }, [state?.succesMsg]);
-
   return (
     <div className="w-full relative ">
       <form
@@ -143,7 +142,7 @@ const UpdateUserForm = ({ user }: UpdateUserFormType) => {
             type="text"
             name="phone"
             placeholder={`${user?.phone}`}
-            value={phone}
+            value={phone?phone:''}
             onChange={(e) => {
               setPhone(parseInt(e.target.value));
             }}

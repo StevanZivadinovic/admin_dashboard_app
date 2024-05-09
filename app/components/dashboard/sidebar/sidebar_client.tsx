@@ -8,6 +8,7 @@ interface SideBarClientType{
 }
 
 const Sidebar_client = ({user}:SideBarClientType) => {
+  console.log(menuItems)
   return (
     <div>
        <div className="userAvatar flex align-center">
@@ -33,7 +34,7 @@ const Sidebar_client = ({user}:SideBarClientType) => {
         <ul className="flex flex-col">
           {menuItems.map((item, i) => {
             return (
-              <li key={i}>
+              <li key={i} className={`${item}`}>
                 <p className="font-bold mt-6 mb-2">{item.title}</p>
                 {item?.list?.map((li, i) => {
                   return (
@@ -42,6 +43,7 @@ const Sidebar_client = ({user}:SideBarClientType) => {
                       title={li.title}
                       path={li.path}
                       icon={li.icon}
+                      inProgress={li.active}
                     />
                   );
                 })}

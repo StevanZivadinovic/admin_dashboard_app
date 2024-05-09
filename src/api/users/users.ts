@@ -63,24 +63,26 @@ export const addNewusers = async (state: any, formData: FormData) => {
   //@ts-ignore
   const Image = image as File;
   let imageUrl = "";
-  const arrayBuffer = await Image.arrayBuffer();
-  const buffer = new Uint8Array(arrayBuffer);
-  try {
-    const resultForImage = await new Promise((resolve, reject) => {
-      // Upload image to Cloudinary
-      cloudinary.uploader
-        .upload_stream({}, (error: any, resultIMG: any) => {
-          if (error) {
-            reject(error);
-          } else {
-            imageUrl = resultIMG.secure_url;
-            resolve(resultIMG);
-          }
-        })
-        .end(buffer);
-    });
-  } catch (error) {
-    console.log(error);
+  if(image){
+    const arrayBuffer = await Image.arrayBuffer();
+    const buffer = new Uint8Array(arrayBuffer);
+    try {
+      const resultForImage = await new Promise((resolve, reject) => {
+        // Upload image to Cloudinary
+        cloudinary.uploader
+          .upload_stream({}, (error: any, resultIMG: any) => {
+            if (error) {
+              reject(error);
+            } else {
+              imageUrl = resultIMG.secure_url;
+              resolve(resultIMG);
+            }
+          })
+          .end(buffer);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   console.log(image, "MYIMAGE");
@@ -250,7 +252,6 @@ export const handleCredentials = async (formData: {
       password: formData.get("password"),
       redirect: false,
     });
-
     // Extract necessary information and return as plain object
     const user = {
       username: response.username,

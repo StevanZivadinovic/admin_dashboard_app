@@ -7,19 +7,22 @@ interface LinkInterface {
   title: string;
   path: string;
   icon: React.JSX.Element;
+  inProgress:boolean
 }
 interface LinkInterfaceLogout {
   title: string;
   icon: React.JSX.Element;
 }
-export const MenuLink = ({ title, path, icon }: LinkInterface) => {
+export const MenuLink = ({ title, path, icon, inProgress }: LinkInterface) => {
   const pathname = usePathname();
   const bgActiveLink = pathname === path ? "bg-bgMoreSoft" : "";
+
   return (
     <>
       <Link
-        href={path}
-        className={`${bgActiveLink} flex text-center self-center p-4 hover:bg-bgMoreSoft rounded-sm`}
+        href={inProgress ?path:''}
+        className={`${bgActiveLink} ${!inProgress ? 'cursor-not-allowed':'cursor-pointer'} flex text-center self-center p-4 hover:bg-bgMoreSoft rounded-sm`}
+      
       >
         <p className="mr-2  flex justify-center flex-col self-center">
           <span className="mr-2 inline-block h-[100%]">{icon}</span>

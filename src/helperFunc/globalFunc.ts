@@ -83,7 +83,7 @@ export const handleSubmit = async (
 ) => {
   try {
     const response = await handleCredentials(formData);
-
+    
     if (response.user) {
       setDisplaySpinner(false)
       setErrorMessage('')
