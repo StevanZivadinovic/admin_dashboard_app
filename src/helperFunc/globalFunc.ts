@@ -1,8 +1,8 @@
 import { revalidatePath } from "next/cache";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { RedirectType } from "next/navigation";
-import { Dispatch, SetStateAction } from "react";
-import { handleLogout } from "../api/users/users";
+import { Dispatch, FormEvent, SetStateAction } from "react";
+import { addNewusers, handleCredentials, handleLogout } from "../api/users/users";
 
 export const capitalizeFirstLetter = (str: string | undefined): string => {
   if (!str) return "";
@@ -98,5 +98,49 @@ export const handleSubmit = async (
   } catch (error) {
     setDisplaySpinner(false);
     setErrorMessage("Failed to login. Check username and password!");
+  }
+};
+
+
+export const handleSubmitCreateAccount = async (
+  event: FormEvent<HTMLFormElement>,
+  setErrorMessage:Dispatch<SetStateAction<any>>,
+  setDisplaySpinner:Dispatch<SetStateAction<boolean>>,
+  router: AppRouterInstance | string[]
+
+) => {
+  event.preventDefault();
+  setErrorMessage("");
+  setDisplaySpinner(true);
+
+  const formData = new FormData(event.target as HTMLFormElement);
+
+  try {
+    // Add new user
+    const addNewUserResponse = await addNewusers(null, formData);
+
+    if (addNewUserResponse) {
+      if (addNewUserResponse.error) {
+        //@ts-ignore
+        setErrorMessage(addNewUserResponse.error);
+
+        setDisplaySpinner(false);
+        return;
+      }
+    }
+    // Login new user
+    const loginResponse = await handleCredentials(formData);
+
+    if (loginResponse.error) {
+      //@ts-ignore
+      setErrorMessage(loginResponse.error);
+      setDisplaySpinner(false);
+      return;
+    }
+    router.push("/dashboard");
+  } catch (error) {
+    console.log(error);
+    setErrorMessage("An unexpected error occurred.");
+    setDisplaySpinner(false);
   }
 };

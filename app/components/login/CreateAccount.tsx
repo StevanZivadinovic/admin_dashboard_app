@@ -2,11 +2,12 @@
 
 import { addNewusers, handleCredentials } from "@/src/api/users/users";
 import { useRouter } from "next/navigation";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { SubmitBtn } from "../global/SubmitBtn";
 import { ImSpinner } from "react-icons/im";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Link from "next/link";
+import { handleSubmitCreateAccount } from "@/src/helperFunc/globalFunc";
 
 const CreateAccount = () => {
   const router = useRouter();
@@ -19,45 +20,7 @@ const CreateAccount = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
-  const handleSubmitCreateAccount = async (
-    event: FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
-    setErrorMessage("");
-    setDisplaySpinner(true);
-
-    const formData = new FormData(event.target as HTMLFormElement);
-
-    try {
-      // Add new user
-      const addNewUserResponse = await addNewusers(null, formData);
-
-      if (addNewUserResponse) {
-        if (addNewUserResponse.error) {
-          //@ts-ignore
-          setErrorMessage(addNewUserResponse.error);
-
-          setDisplaySpinner(false);
-          return;
-        }
-      }
-      // Login new user
-      const loginResponse = await handleCredentials(formData);
-
-      if (loginResponse.error) {
-        //@ts-ignore
-        setErrorMessage(loginResponse.error);
-        setDisplaySpinner(false);
-        return;
-      }
-      router.push("/dashboard");
-    } catch (error) {
-      console.log(error);
-      setErrorMessage("An unexpected error occurred.");
-      setDisplaySpinner(false);
-    }
-  };
+  
 
   if (displaySpinner) {
     return (
@@ -69,7 +32,7 @@ const CreateAccount = () => {
   return (
     //@ts-ignore
     <form
-      onSubmit={handleSubmitCreateAccount}
+      onSubmit={(event)=>{handleSubmitCreateAccount(event, setErrorMessage,setDisplaySpinner,router)}}
       className="flex flex-col w-[30%] justify-center self-center bg-bgSoft p-8"
     >
       <h1 className="text-center text-2xl mb-4 font-bold">Create account</h1>
