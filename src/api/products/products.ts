@@ -48,7 +48,6 @@ export const getProducts = async (
 };
 
 export const getAllProducts = async (): Promise<AllProductsType> => {
-
   try {
     connectToDatabase();
     const countAllProducts = await Product.countDocuments();

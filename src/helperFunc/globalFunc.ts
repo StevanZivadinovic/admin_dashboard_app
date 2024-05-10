@@ -79,24 +79,24 @@ export const handleSubmit = async (
     (value: SetStateAction<string>): void;
     (arg0: string): void;
   },
-  setDisplaySpinner:Dispatch<SetStateAction<boolean>>
+  setDisplaySpinner: Dispatch<SetStateAction<boolean>>
 ) => {
   try {
     const response = await handleCredentials(formData);
-    
+
     if (response.user) {
-      setDisplaySpinner(false)
-      setErrorMessage('')
+      setDisplaySpinner(false);
+      setErrorMessage("");
       router.push("/dashboard");
     } else {
-      setDisplaySpinner(false)
+      setDisplaySpinner(false);
       setErrorMessage(
         (response.error as string) ||
           "Failed to login. Check username and password!"
       );
     }
   } catch (error) {
-    setDisplaySpinner(false)
+    setDisplaySpinner(false);
     setErrorMessage("Failed to login. Check username and password!");
   }
 };

@@ -5,7 +5,7 @@ import DeleteUserProductMsg from "@/app/components/global/DeleteUserProductMsg";
 import { getAllProducts, getProducts } from "@/src/api/products/products";
 import { ProductsType } from "@/src/consts/Types";
 import { truncateText } from "@/src/helperFunc/globalFunc";
-import {Tooltip} from "@nextui-org/tooltip";
+import { Tooltip } from "@nextui-org/tooltip";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -22,14 +22,14 @@ const Products = async ({ searchParams }) => {
   const page = searchParams?.page || 1;
   const { products, count, filteredProducts, ITEM_PER_PAGE }: productsDataType =
     await getProducts(q, page);
-    const pickedProducts =
+  const pickedProducts =
     filteredProducts.length <= ITEM_PER_PAGE ? filteredProducts : products;
-    const {countAllProducts}= await getAllProducts()
+  const { countAllProducts } = await getAllProducts();
 
   return (
     <div className="bg-bgSoft mt-4 p-4">
       <div className="flex justify-between">
-      <SearchBar/>
+        <SearchBar />
         <Link href="/dashboard/products/add">
           <button className="flex bg-purpleBtn px-4 py-2 rounded-md cursor-pointer hover:bg-lightPurpleBtn">
             Add New
@@ -59,13 +59,25 @@ const Products = async ({ searchParams }) => {
                     height={40}
                     className="rounded-[50%] mr-4 max-h-[40px]"
                   />
-                  <Tooltip  placement={"top-start"}  offset={-1} content={product.title} className="bg-bgMoreSoft px-4 py-2 rounded-md max-w-[100px] break-words">
-                  <p className="flex self-center">{truncateText(product.title)}</p>
+                  <Tooltip
+                    placement={"top-start"}
+                    offset={-1}
+                    content={product.title}
+                    className="bg-bgMoreSoft px-4 py-2 rounded-md max-w-[100px] break-words"
+                  >
+                    <p className="flex self-center">
+                      {truncateText(product.title)}
+                    </p>
                   </Tooltip>
                 </div>
               </td>
-              <Tooltip  placement={"top-start"}  offset={-25} content={product.desc} className="bg-bgMoreSoft px-4 py-2 rounded-md max-w-[500px]  break-words">
-              <td className="">{truncateText(product.desc)}</td>
+              <Tooltip
+                placement={"top-start"}
+                offset={-25}
+                content={product.desc}
+                className="bg-bgMoreSoft px-4 py-2 rounded-md max-w-[500px]  break-words"
+              >
+                <td className="">{truncateText(product.desc)}</td>
               </Tooltip>
               <td>{product.price}</td>
               <td>{product.createdAt?.toString().slice(4, 16)}</td>
@@ -86,7 +98,7 @@ const Products = async ({ searchParams }) => {
         </tbody>
       </table>
       <Pagination count={count} />
-      <DeleteUserProductMsg count={countAllProducts} type={'Product'}/>
+      <DeleteUserProductMsg count={countAllProducts} type={"Product"} />
     </div>
   );
 };

@@ -9,7 +9,6 @@ import { handleUsersErrors } from "./../../helperFunc/handlingErrors";
 import { signIn, signOut } from "@/auth";
 import { v2 as cloudinary } from "cloudinary";
 
-
 cloudinary.config({
   cloud_name: "dvayrzzpb",
   api_key: "927278486157215",
@@ -52,9 +51,7 @@ export const getUsers = async (
   }
 };
 
-
-export const getAllUsers = async (
-): Promise<UserResponseAllUsers> => {
+export const getAllUsers = async (): Promise<UserResponseAllUsers> => {
   try {
     connectToDatabase();
     const countAll = await User.countDocuments();
@@ -81,7 +78,7 @@ export const addNewusers = async (state: any, formData: FormData) => {
   //@ts-ignore
   const Image = image as File;
   let imageUrl = "";
-  if(image){
+  if (image) {
     const arrayBuffer = await Image.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
     try {
@@ -193,7 +190,7 @@ export const updateUser = async (state: any, formData: FormData) => {
       //@ts-ignore
       const hashedPassword = await bcrypt.hash(password, salt);
       let imageUrl = "";
-      if(image){
+      if (image) {
         const Image = image as File;
         const arrayBuffer = await Image.arrayBuffer();
         const buffer = new Uint8Array(arrayBuffer);
@@ -224,7 +221,7 @@ export const updateUser = async (state: any, formData: FormData) => {
             address,
             isAdmin,
             isActive,
-            img:imageUrl,
+            img: imageUrl,
           }
         : {
             username,
@@ -233,7 +230,7 @@ export const updateUser = async (state: any, formData: FormData) => {
             address,
             isAdmin,
             isActive,
-            img:imageUrl,
+            img: imageUrl,
           };
       Object.keys(updateFields).forEach(
         (key) =>
@@ -251,7 +248,7 @@ export const updateUser = async (state: any, formData: FormData) => {
     }
   }
   if (result.error) {
-    console.log(result.error)
+    console.log(result.error);
     return { error: result.error.format() };
   }
 };

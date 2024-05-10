@@ -7,7 +7,7 @@ import { SubmitBtn } from "../global/SubmitBtn";
 import { useFormState } from "react-dom";
 import { handleSubmit } from "@/src/helperFunc/globalFunc";
 import { ImSpinner } from "react-icons/im";
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Link from "next/link";
 
 const LoginForm = () => {
@@ -52,13 +52,13 @@ const LoginForm = () => {
         name="username"
       />
       <div className="relative">
-      <input
-        className="bg-bg mb-4 p-4 outline-none border-bgMoreSoft border-[2px] rounded-md w-full"
-        type={showPassword ? 'text' : 'password'}
-        placeholder="password"
-        name="password"
-      />
-      <span
+        <input
+          className="bg-bg mb-4 p-4 outline-none border-bgMoreSoft border-[2px] rounded-md w-full"
+          type={showPassword ? "text" : "password"}
+          placeholder="password"
+          name="password"
+        />
+        <span
           className="absolute right-3 top-[40%] transform -translate-y-1/2 cursor-pointer"
           onClick={togglePasswordVisibility}
         >
@@ -72,7 +72,12 @@ const LoginForm = () => {
         setDisplaySpinner={setDisplaySpinner}
       />
       <p className="text-redBtn mt-4">{errorMessage}</p>
-      <p className='text-right'>Already have account? <Link className="font-bold" href={'/'}>Create account</Link> </p>
+      <p className="text-right">
+        Already have account?{" "}
+        <Link className="font-bold" href={"/"}>
+          Create account
+        </Link>{" "}
+      </p>
     </form>
   );
 };

@@ -4,8 +4,6 @@ import { addNewusers, handleCredentials } from "@/src/api/users/users";
 import { useRouter } from "next/navigation";
 import { FormEvent, useRef, useState } from "react";
 import { SubmitBtn } from "../global/SubmitBtn";
-import { useFormState } from "react-dom";
-import { handleSubmit } from "@/src/helperFunc/globalFunc";
 import { ImSpinner } from "react-icons/im";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Link from "next/link";
@@ -47,7 +45,6 @@ const CreateAccount = () => {
       // Login new user
       const loginResponse = await handleCredentials(formData);
 
-      console.log(addNewUserResponse)
       if (loginResponse.error) {
         //@ts-ignore
         setErrorMessage(loginResponse.error);
@@ -69,7 +66,6 @@ const CreateAccount = () => {
       </div>
     );
   }
-  console.log(errorMessage)
   return (
     //@ts-ignore
     <form
