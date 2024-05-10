@@ -7,9 +7,9 @@ import { revalidatePath } from "next/cache";
 import productSchema from "./../zod/ProductShema";
 import { v2 as cloudinary } from "cloudinary";
 cloudinary.config({
-  cloud_name: "dvayrzzpb",
-  api_key: "927278486157215",
-  api_secret: "RHG04yrEov7ItQVcypAfeN9OpSg",
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_APY_SECRET,
 });
 
 interface ProductResponse {
