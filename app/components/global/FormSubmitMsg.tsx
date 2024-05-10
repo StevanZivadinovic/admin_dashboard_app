@@ -2,7 +2,7 @@ import React from "react";
 interface updateFormMsgType {
   type: string;
   display: boolean;
-  typeOfMessage:string;
+  typeOfMessage: string;
 }
 
 const FormSubmitMsg = ({ type, display, typeOfMessage }: updateFormMsgType) => {

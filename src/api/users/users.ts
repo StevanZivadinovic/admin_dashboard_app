@@ -133,13 +133,11 @@ export const addNewusers = async (state: any, formData: FormData) => {
       await newUser.save();
       return { succesMsg: result.success };
     } catch (err) {
-      console.log(err);
       const errorMessage = handleUsersErrors(err);
       return { error: errorMessage };
     }
   }
   if (result.error) {
-    console.log(result.error);
     return { error: result.error.format() };
   }
 };

@@ -1,6 +1,5 @@
 "use client";
 
-import { handleLogout } from "@/src/api/users/users";
 import { useRouter } from "next/navigation";
 import { MdLogout } from "react-icons/md";
 import { MenuLinkLogout } from "../sidebar/menuLink";

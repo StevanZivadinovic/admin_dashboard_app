@@ -1,30 +1,31 @@
-import { menuItems } from '@/src/consts/menuItemsSideBar';
-import Image from 'next/image';
-import React from 'react'
-import { MenuLink } from './menuLink';
-import Logout from '../logout/Logout';
-interface SideBarClientType{
-  user:any 
+import { menuItems } from "@/src/consts/menuItemsSideBar";
+import Image from "next/image";
+import React from "react";
+import { MenuLink } from "./menuLink";
+import Logout from "../logout/Logout";
+interface SideBarClientType {
+  user: any;
 }
 
-const Sidebar_client = ({user}:SideBarClientType) => {
+const Sidebar_client = ({ user }: SideBarClientType) => {
   return (
     <div>
-       <div className="userAvatar flex align-center">
+      <div className="userAvatar flex align-center">
         <div className="imgAvatar">
           <Image
             className="rounded-[50%] max-h-[50px] max-w-[50px]"
             width={50}
             height={50}
-            src={user?.img && user.img.startsWith("https") ? user.img : "/images/noavatar.png"}
+            src={
+              user?.img && user.img.startsWith("https")
+                ? user.img
+                : "/images/noavatar.png"
+            }
             alt="avatar"
           />
         </div>
         <div className="userAvatarData text-textSoft ml-[20px]">
-       
-          <p className="name font-bold">{
-          user?.username
-          }</p>
+          <p className="name font-bold">{user?.username}</p>
           <p className="role text-[13px]">Administrator</p>
         </div>
       </div>
@@ -55,7 +56,7 @@ const Sidebar_client = ({user}:SideBarClientType) => {
         </ul>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar_client
+export default Sidebar_client;

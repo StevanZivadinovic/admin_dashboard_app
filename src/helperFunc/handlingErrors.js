@@ -32,12 +32,35 @@ export const handleUsersErrors = (err,t) => {
       }
     }
     if (err?.message.includes('User validation failed')) {
-      Object.values(err?.errors).forEach(({properties}) => {
-        error[properties.path]._errors.push(properties.message)
+      Object.values(err?.errors)?.forEach(({properties}) => {
+        error[properties.path]?._errors.push(properties.message)
       });
     }
     return error;
   };
+
+  // export const handleZodErrors = (err)=>{
+  //   console.log(err);
+  //   let error={
+  //     username:[],
+  //     email:[],
+  //     password:[]
+  //   }
+  //   console.log(Object.values(err)[1])
+  //   Object.values(err)[1]?._errors?.forEach(a=>{
+  //     console.log(a, a.includes('Password'))
+  //     if(a.includes('Password')){
+  //       error.password.push(a);
+  //     }
+  //     else if(a.includes('Email')){
+  //       error.email.push(a)
+  //     }
+  //     else if(a.includes('Username')){
+  //       error.username.push(a)
+  //     }
+  //   })
+  //     return error;
+  // }
   
 //product errors handling
   export const handleProductsErrors = (err,t) => {
