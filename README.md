@@ -1,2 +1,2 @@
-Install project: npm i 
-Run project: npm run dev
+Install project: npm i; 
+Run project: npm run dev;
