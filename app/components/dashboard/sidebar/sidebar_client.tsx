@@ -8,7 +8,6 @@ interface SideBarClientType{
 }
 
 const Sidebar_client = ({user}:SideBarClientType) => {
-  console.log(menuItems)
   return (
     <div>
        <div className="userAvatar flex align-center">

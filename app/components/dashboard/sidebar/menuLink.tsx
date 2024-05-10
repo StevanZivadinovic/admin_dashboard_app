@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import {Tooltip} from "@nextui-org/tooltip";
 
 interface LinkInterface {
   title: string;
@@ -27,7 +28,9 @@ export const MenuLink = ({ title, path, icon, inProgress }: LinkInterface) => {
         <p className="mr-2  flex justify-center flex-col self-center">
           <span className="mr-2 inline-block h-[100%]">{icon}</span>
         </p>
+        <Tooltip  placement={"right"}  offset={150} content={'Work in  progress :)'} className="bg-bgMoreSoft px-4 py-2 rounded-md max-w-[200px] break-words">
         <span className="">{title}</span>
+        </Tooltip>
       </Link>
     </>
   );

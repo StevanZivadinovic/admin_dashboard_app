@@ -23,6 +23,10 @@ interface UserResponse {
   ITEM_PER_PAGE: number;
 }
 
+interface UserResponseAllUsers {
+  countAll: number;
+}
+
 export const getUsers = async (
   q: string,
   page: number
@@ -42,6 +46,20 @@ export const getUsers = async (
 
     filteredUsers = await User.find(searchQuery);
     return { users, count, filteredUsers, ITEM_PER_PAGE };
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to retrieve users");
+  }
+};
+
+
+export const getAllUsers = async (
+): Promise<UserResponseAllUsers> => {
+  try {
+    connectToDatabase();
+    const countAll = await User.countDocuments();
+
+    return { countAll };
   } catch (err) {
     console.log(err);
     throw new Error("Failed to retrieve users");
@@ -84,8 +102,6 @@ export const addNewusers = async (state: any, formData: FormData) => {
       console.log(error);
     }
   }
-
-  console.log(image, "MYIMAGE");
   const result = userSchema.safeParse({
     username,
     email,
@@ -172,7 +188,6 @@ export const updateUser = async (state: any, formData: FormData) => {
     isActive,
     image,
   });
-  // console.log(image, "IMAGE");
   if (result.success) {
     try {
       connectToDatabase();

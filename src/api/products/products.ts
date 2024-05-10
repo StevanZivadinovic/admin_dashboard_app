@@ -12,17 +12,20 @@ cloudinary.config({
   api_secret: "RHG04yrEov7ItQVcypAfeN9OpSg",
 });
 
-interface UserResponse {
+interface ProductResponse {
   products: ProductsType[];
   count: number;
   filteredProducts: ProductsType[];
   ITEM_PER_PAGE: number;
 }
+interface AllProductsType {
+  countAllProducts: number;
+}
 
 export const getProducts = async (
   q: string,
   page: number
-): Promise<UserResponse> => {
+): Promise<ProductResponse> => {
   const regex = new RegExp(q, "i");
   const ITEM_PER_PAGE = 3;
   try {
@@ -38,6 +41,18 @@ export const getProducts = async (
 
     filteredProducts = await Product.find(searchQuery);
     return { products, count, filteredProducts, ITEM_PER_PAGE };
+  } catch (err) {
+    console.log(err);
+    throw new Error("Failed to retrieve products");
+  }
+};
+
+export const getAllProducts = async (): Promise<AllProductsType> => {
+
+  try {
+    connectToDatabase();
+    const countAllProducts = await Product.countDocuments();
+    return { countAllProducts };
   } catch (err) {
     console.log(err);
     throw new Error("Failed to retrieve products");
@@ -102,7 +117,7 @@ export const addNewProducts = async (state: any, formData: FormData) => {
     }
   }
   if (result.error) {
-    console.log(result.error, "zodError");
+    console.log(result.error);
     return { error: result.error.format() };
   }
 };
@@ -145,7 +160,6 @@ export const updateProduct = async (state: any, formData: FormData) => {
   });
 
   if (result.success) {
-    console.log(image);
     try {
       connectToDatabase();
       let imageUrl = "";

@@ -112,7 +112,6 @@ const AddProductPage = () => {
                   onChange={(e) => {
                     if (e.target.value.length > 0 && e.target.files) {
                       setImageAdded(e.target.value);
-                      console.log(URL.createObjectURL(e.target.files[0]));
                     }
                   }}
                 />

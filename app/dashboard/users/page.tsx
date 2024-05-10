@@ -2,12 +2,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import Pagination from './../../components/dashboard/pagination/pagination'
-import { getUsers } from "@/src/api/users/users";
 import { UserType } from "@/src/consts/Types";
 import SearchBar from "@/app/components/dashboard/searchBar/searchBar";
 import DeleteUserProductMsg from "@/app/components/global/DeleteUserProductMsg";
 import DeleteUserBtn from "@/app/components/global/DeleteUserBtn";
 import { Tooltip } from "@nextui-org/tooltip";
+import { getAllUsers, getUsers } from "@/src/api/users/users";
 // @ts-ignore
 
 interface usersDataType{
@@ -23,6 +23,7 @@ const Users =async  ({ searchParams }) => {
   const page = searchParams?.page || 1;
 const {users, count, filteredUsers, ITEM_PER_PAGE}:usersDataType =  await getUsers(q, page)
 const pickedUsers = filteredUsers.length <= ITEM_PER_PAGE ? filteredUsers:users
+const {countAll} = await getAllUsers();
 return (
     <div className='bg-bgSoft mt-4 p-4'>
       <div className='flex justify-between'>
@@ -80,10 +81,11 @@ return (
         </tbody>
       </table>
       <Pagination count={count} />
-      <DeleteUserProductMsg count={count} type={'User'}/>
+      <DeleteUserProductMsg count={countAll} type={'User'}/>
       
     </div>
   );
 };
 
 export default Users;
+

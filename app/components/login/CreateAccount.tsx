@@ -59,8 +59,6 @@ const CreateAccount = () => {
       const loginResponse = await handleCredentials(formData);
 
       if (loginResponse.error) {
-        console.log(loginResponse.error)
-        console.log(formData.get("username"),formData.get("password"))
         // Handle error if login failed
         //@ts-ignore
         setErrorMessage(loginResponse.error);

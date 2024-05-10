@@ -2,7 +2,7 @@ import Pagination from "@/app/components/dashboard/pagination/pagination";
 import SearchBar from "@/app/components/dashboard/searchBar/searchBar";
 import DeleteProductBtn from "@/app/components/global/DeleteProductBtn";
 import DeleteUserProductMsg from "@/app/components/global/DeleteUserProductMsg";
-import { getProducts } from "@/src/api/products/products";
+import { getAllProducts, getProducts } from "@/src/api/products/products";
 import { ProductsType } from "@/src/consts/Types";
 import { truncateText } from "@/src/helperFunc/globalFunc";
 import {Tooltip} from "@nextui-org/tooltip";
@@ -24,6 +24,7 @@ const Products = async ({ searchParams }) => {
     await getProducts(q, page);
     const pickedProducts =
     filteredProducts.length <= ITEM_PER_PAGE ? filteredProducts : products;
+    const {countAllProducts}= await getAllProducts()
 
   return (
     <div className="bg-bgSoft mt-4 p-4">
@@ -77,7 +78,7 @@ const Products = async ({ searchParams }) => {
                   >
                     <button>View</button>
                   </Link>
-                  <DeleteProductBtn product={product}/>
+                  <DeleteProductBtn product={product} />
                 </div>
               </td>
             </tr>
@@ -85,7 +86,7 @@ const Products = async ({ searchParams }) => {
         </tbody>
       </table>
       <Pagination count={count} />
-      <DeleteUserProductMsg count={count} type={'Product'}/>
+      <DeleteUserProductMsg count={countAllProducts} type={'Product'}/>
     </div>
   );
 };

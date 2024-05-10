@@ -1,6 +1,6 @@
 "use client"
 import { deleteProduct } from '@/src/api/products/products';
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 
 
 const DeleteProductBtn = (product:any) => {

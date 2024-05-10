@@ -23,13 +23,6 @@ export const handleUsersErrors = (err,t) => {
         _errors:[]
       }
     }
-    // console.log(err, 'haj');
-    // if(err.message===t('user_not_found')){
-    //   error.bigError=t('user_not_found')
-    // }
-    // if(err.message===t('wrong_username_or_password')){
-    //   error.bigError=t('wrong_username_or_password')
-    // }
     if(err.code===11000 || err.message==='already in use'){
       if(err?.keyValue?.username){
         error.username._errors.push(`Username '${err?.keyValue?.username}' already exists.`);
@@ -71,13 +64,6 @@ export const handleUsersErrors = (err,t) => {
         _errors:[]
       }
     }
-    // console.log(err, 'haj');
-    // if(err.message===t('user_not_found')){
-    //   error.bigError=t('user_not_found')
-    // }
-    // if(err.message===t('wrong_username_or_password')){
-    //   error.bigError=t('wrong_username_or_password')
-    // }
     
     if(err.code===11000 || err.message==='already in use'){
       if(err?.keyValue?.title){
